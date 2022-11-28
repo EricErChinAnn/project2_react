@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Lustria&display=swap');
+
+.fontCinN{font-family: 'Cinzel Decorative', cursive; font-weight: 400;}
+.fontCinB{font-family: 'Cinzel Decorative', cursive; font-weight: 700;}
+.fontLust{font-family: 'Lustria', serif;}
+
+@media only screen and (max-width: 450px){
+    .cardDisplay{
+        display: block!important;
+        flex-direction: column!important;
+    }
+
+    .card{
+        width: 90vw!important;
+    }
+
+}
+
+.cardDisplay{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.card-body{
+    width: 30vw;
+    min-width: 250px;
+}
