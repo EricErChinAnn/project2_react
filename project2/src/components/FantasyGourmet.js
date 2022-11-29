@@ -30,7 +30,7 @@ export default class Main extends React.Component{
   <div className="container-fluid">
     <a className="navbar-brand fontCinB" href="/#" onClick={()=>{this.switchPage("home")}}>Fantasy Gourmet</a>
     <div>
-    <i className="bi bi-search pe-3" style={{fontSize: "1.3rem", color:"cornflowerblue"}}></i>
+    <i className="bi bi-search pe-3" style={{fontSize: "1.3rem", color:"White", cursor: "pointer"}}></i>
     <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
       <span className="navbar-toggler-icon"></span>
     </button>

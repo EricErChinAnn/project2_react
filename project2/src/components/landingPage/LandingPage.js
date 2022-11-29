@@ -15,7 +15,7 @@ export default class Main extends React.Component{
         this.setState({
             data: response.data
         })
-        console.log(response.data)
+        // console.log(response.data)
     }
 
     render(){

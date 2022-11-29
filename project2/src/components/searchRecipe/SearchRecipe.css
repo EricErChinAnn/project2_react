@@ -39,7 +39,7 @@
 }
 
 .cardFade{
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0));
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0, 0, 0, 0));
 }
 
 .mouseOverCursor {
@@ -48,4 +48,14 @@
 
 .bigHover:hover {
     transform: scale(1.05);
+}
+
+.cardDark{
+    background-color: #393632;
+}
+
+body{
+    /* background-color:#a5875e; */
+    background-image: linear-gradient(#a5875e,#886443);
+    height: 100vh;
 }

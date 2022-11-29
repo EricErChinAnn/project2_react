@@ -1,0 +1,25 @@
+.foodImg{
+    height: auto;
+    object-fit: fill!important;
+    overflow: hidden;
+    width: 100%;
+}
+
+.imgContainer{
+    display: flex;
+    width: 100%;
+}
+
+.backButton{
+    position: fixed;
+    top: 8vh;
+    right : 5vw;
+}
+
+.mouseOverCursor {
+    cursor: pointer;
+}
+
+.backgroundHolder{
+    background-color:azure;
+}
