@@ -11,7 +11,11 @@
     }
 
     .card{
-        width: 90vw!important;
+        width: 95vw!important;
+    }
+
+    .card-img{
+        min-width: 86vw!important;
     }
 
 }
@@ -26,4 +30,10 @@
 .card-body{
     width: 30vw;
     min-width: 250px;
+}
+
+.card-img{
+    min-height: 300px;
+    min-width: auto;
+    object-fit: cover!important;
 }

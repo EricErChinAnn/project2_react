@@ -17,8 +17,8 @@ export default function EachRecipe(props) {
 
     return (
         <React.Fragment>
-            <div className="card-body">
-                <img src="logo192.png" className="card-img" alt="Sample of Food" />
+            <div className="card-body m-0">
+                <img src={props.recipe.picture} className="card-img" alt="Sample of Food" />
                 <div className="card-img-overlay">
                     <h3 className="card-title mb-0 pb-0 fontCinB">{props.recipe.name}</h3>
                     <p className="fontLust">{starRating}</p>

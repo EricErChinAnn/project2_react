@@ -24,11 +24,11 @@ export default class FantasyGourmet extends React.Component {
         return (
             <React.Fragment>
                 <h1>Recipes</h1>
-                <div className='cardDisplay'>
+                <div className='cardDisplay '>
                     {
                         this.state.data.map((each) => {
                             return (
-                                <div className="card mt-3 mx-2 text-center text-bg-dark " style={{textShadow:"2px 2px #00000"}} key={each._id}>
+                                <div className="card mt-3 mx-2 text-center text-bg-dark" style={{textShadow:"2px 2px #00000"}} key={each._id}>
                                     <EachRecipe recipe={each} />
                                 </div>
                             )
