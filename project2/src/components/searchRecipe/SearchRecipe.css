@@ -37,3 +37,15 @@
     min-width: auto;
     object-fit: cover!important;
 }
+
+.cardFade{
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0, 0, 0, 0));
+}
+
+.mouseOverCursor {
+    cursor: pointer;
+}
+
+.bigHover:hover {
+    transform: scale(1.05);
+}

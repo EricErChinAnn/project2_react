@@ -1,12 +1,13 @@
 import './App.css';
 import React from "react";
-import SearchRecipe from './components/searchRecipe/SearchRecipe';
+import FantasyGourmet from "./components/FantasyGourmet"
+
 
 
 function App() {
   return (
     <React.Fragment>
-      <SearchRecipe/>
+      <FantasyGourmet/>
     </React.Fragment>
   );
 }
