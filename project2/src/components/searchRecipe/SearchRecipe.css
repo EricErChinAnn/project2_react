@@ -54,8 +54,8 @@
     background-color: #393632;
 }
 
-body{
+html,body{
     /* background-color:#a5875e; */
     background-image: linear-gradient(#a5875e,#886443);
-    height: 100vh;
+    height: 100%;
 }

@@ -1,25 +1,69 @@
-.foodImg{
+.foodImg {
     height: auto;
-    object-fit: fill!important;
+    object-fit: fill !important;
     overflow: hidden;
     width: 100%;
 }
 
-.imgContainer{
+.imgContainer {
     display: flex;
     width: 100%;
 }
 
-.backButton{
+.backButton {
     position: fixed;
     top: 8vh;
-    right : 5vw;
+    right: 5vw;
 }
 
 .mouseOverCursor {
     cursor: pointer;
 }
 
-.backgroundHolder{
-    background-color:azure;
+.backgroundHolder {
+    background-image: linear-gradient(to bottom, #f4eee3, #d4ccbc);
+}
+
+.drawALine {
+    height: 1px;
+    background: #4e4b47;
+}
+
+.dedsContainer {
+    background-image: linear-gradient(to bottom, #b0aca1, #928e89);
+    font-size: 13px;
+    padding: 10px;
+}
+
+.bold {
+    font-weight: 900;
+}
+
+.foodTags {
+    padding: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #f4eee3;
+    background: #4e4b47;
+}
+
+.eqAndStepsContainer {
+    font-size: 13px;
+}
+
+.fontCinB {
+    font-size: 15px;
+}
+
+@media only screen and (max-width: 450px) {
+    .eqContainer {
+        flex-wrap: wrap !important;
+        display: flex !important;
+
+    }
+
+    .nameCatContainer {
+        text-align: center;
+    }
+
 }

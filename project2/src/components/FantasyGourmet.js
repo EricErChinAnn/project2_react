@@ -13,7 +13,7 @@ export default class Main extends React.Component{
     }
 
     renderPage = ()=>{
-        if(this.state.page === "home"){ return <LandingPage/>}
+        if(this.state.page === "home"){ return <LandingPage page={this.state.page}/>}
         else if (this.state.page === "search"){return <SearchRecipe/>}
         else if (this.state.page === "singleRecipe"){return <SingleRecipe/>}
     }

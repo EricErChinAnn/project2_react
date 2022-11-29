@@ -7,6 +7,7 @@ import EachRecipe from "./child/EachRecipe"
 import SingleRecipe from "../singleRecipe/SingleRecipe"
 
 export default class SearchRecipe extends React.Component {
+    
     state = {
         data: [],
         viewSingleRecipe: false,

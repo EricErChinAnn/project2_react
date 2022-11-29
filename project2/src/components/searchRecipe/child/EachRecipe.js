@@ -1,15 +1,9 @@
 import React from "react";
 import {getStar} from "../../module/GetStar" 
+import { getShowGameIcon } from "../../module/GetShowGame";
 
 export default function EachRecipe(props) {
     let starRating = getStar(props.recipe.reviewId)
-
-    let showGame = null;
-    if (props.recipe.showGameId[0].category === "Game") {
-        showGame = <i className="bi bi-controller" style={{ fontSize: "1.3rem", color: "#f4eee3" }}></i>
-    } else {
-        showGame = <i className="bi bi-film" style={{ fontSize: "1.3rem", color: "#f4eee3" }}></i>
-    }
 
     return (
         <React.Fragment>
@@ -19,7 +13,7 @@ export default function EachRecipe(props) {
                     <div>
                         <div className="d-flex justify-content-between align-content-center">
                             <h3 className="card-title mb-0 pb-0 fontCinB" style={{ color: "#f4eee3" }}>{props.recipe.name}</h3>
-                            <p className="pe-1" style={{ color: "#f4eee3" }}>{showGame}</p>
+                            <p className="pe-1" style={{ color: "#f4eee3", fontSize: "1.3rem"}}>{getShowGameIcon(props.recipe.showGameId)}</p>
                         </div>
                         <p className="fontLust text-center">{starRating}</p>
                     </div>
