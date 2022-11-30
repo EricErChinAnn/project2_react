@@ -49,7 +49,7 @@ export default function SingleRecipe(props) {
         }
     }
 
-    console.log(singleRecipe.reviewId[0])
+    console.log(singleRecipe)
     let showReviews = () => {
         if (singleRecipe.reviewId[0]) {
             return (
@@ -126,9 +126,13 @@ export default function SingleRecipe(props) {
                         </div>
                     </div>
                 </div>
+                <div className='editByContainer'>
+                    <p className='fontLust m-0 pe-2'>Last Edited: {singleRecipe.lastEdit} - {singleRecipe.userId[0].name}</p>
+                </div>
             </div>
+            <div className='reviewContainer'>
             {showReviews()}
-            <button type="button" class="btn btn-primary">Primary</button>
+            </div>
         </React.Fragment>
     )
 }

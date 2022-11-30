@@ -48,11 +48,11 @@
 }
 
 .eqAndStepsContainer {
-    font-size: 13px;
+    font-size: 15px;
 }
 
 .fontCinB {
-    font-size: 15px;
+    font-size: 18px;
 }
 
 @media only screen and (max-width: 450px) {
@@ -66,4 +66,13 @@
         text-align: center;
     }
 
+    .editByContainer{
+        font-size: 12px;
+        opacity: 0.4;
+        text-align: end;
+    }
+
+    .reviewContainer{
+        align-items: center;
+    }
 }

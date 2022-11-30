@@ -1,0 +1,11 @@
+.searchButton{
+    background-image: linear-gradient(#d4ccbc,#b0aca1);
+}
+
+.validationMinMax{
+    display: none;
+}
+
+.searchButton:hover{
+    background-image: linear-gradient(#b0aca1,#d4ccbc);
+}

@@ -12,7 +12,7 @@ export default function EachRecipe(props) {
                 <div className="m-2 card-img-overlay d-flex flex-column justify-content-between">
                     <div>
                         <div className="d-flex justify-content-between align-content-center">
-                            <h3 className="card-title mb-0 pb-0 fontCinB" style={{ color: "#f4eee3" }}>{props.recipe.name}</h3>
+                            <h3 className="card-title mb-0 pb-0 fontCinB" style={{ color: "#f4eee3", fontSize:"30px"}}>{props.recipe.name}</h3>
                             <p className="pe-1" style={{ color: "#f4eee3", fontSize: "1.3rem"}}>{getShowGameIcon(props.recipe.showGameId)}</p>
                         </div>
                         <p className="fontLust text-center">{starRating}</p>

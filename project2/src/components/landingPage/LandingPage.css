@@ -1,0 +1,11 @@
+.imgOnLanding{
+    object-fit: fill;
+    overflow: hidden;
+}
+
+.imgContainer{
+    
+    padding: 20px;
+    width: 100vw;
+    height: 100vh;
+}
