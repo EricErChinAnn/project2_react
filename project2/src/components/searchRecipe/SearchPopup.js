@@ -5,20 +5,18 @@ import "./SearchPopup.css"
 export default function EachRecipe(props) {
     return (
         <React.Fragment>
-            <button type="button" class="btn fontLust searchButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                <i class="bi bi-search"></i> Search Filter
+            <button type="button" className="btn fontLust searchButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                <i className="bi bi-search"></i> Search Filter
             </button>
 
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5 fontCinB" id="staticBackdropLabel"><i class="bi bi-search"></i> Search Filter</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content searchPopUp">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5 fontCinB" id="staticBackdropLabel"><i className="bi bi-search"></i> Search Filter</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-
-
+                        <div className="modal-body">
 
                             <form className="fontLust">
                                 <input type="text" className="form-control mb-3" placeholder="Name of Recipe"
@@ -54,35 +52,34 @@ export default function EachRecipe(props) {
                                     </select>
                                 </div>
 
-                                <div className="d-flex flex-row justify-content-center align-items-center">
-                                    <div className="input-group my-2 m-0">
-                                        <span className="input-group-text">$</span>
-                                        <input class="form-control" type="number" name="estCostMin" min="0" max="100" value={props.estCostMin} onChange={props.updateForm} />
+                                <div className="d-flex flex-column align-items-center budgetRange">
+                                    <p className="m-0 p-0">Budget Range:</p>
+                                    <div className="d-flex flex-row justify-content-center align-items-center">
+                                        <div className="input-group my-2 m-0">
+                                            <span className="input-group-text">$</span>
+                                            <input className="form-control" type="number" name="estCostMin" min="0" max="100" value={props.estCostMin} onChange={props.updateForm} />
+                                        </div>
+                                        <div><i className="bi bi-dash"></i></div>
+                                        <div className="input-group my-2 m-0">
+                                            <span className="input-group-text">$</span>
+                                            <input className="form-control" type="number" name="estCostMax" min="0" max="100" placeholder="0.00" value={props.estCostMax} onChange={props.updateForm} />
+                                        </div>
                                     </div>
-                                    <div><i class="bi bi-dash"></i></div>
-                                    <div className="input-group my-2 m-0">
-                                        <span className="input-group-text">$</span>
-                                        <input class="form-control" type="number" name="estCostMax" min="0" max="100" placeholder="0.00" value={props.estCostMax} onChange={props.updateForm} />
-                                    </div>
+                                    {props.validateMinMax(props.estCostMin, props.estCostMax)}
+                                    <div className="validationMinMax">Min Amount cannot be larger then Max Amount</div>
                                 </div>
-                                {props.validateMinMax(props.estCostMin,props.estCostMax)}
-                                <div className="validationMinMax">Min Amount cannot be larger then Max Amount</div>
+
                                 <div className="input-group my-2">
-                                    <input type="text" className="form-control" placeholder="Search via Ingredient"
-                                        name="reqIngredients" onInput={props.updateForm} />
+                                    <input type="text" className="form-control" placeholder="Search via Single Ingredient"
+                                        name="reqIngredients" value={props.reqIngredients} onInput={props.updateForm} />
                                 </div>
+                                {props.validateText(props.reqIngredients)}
 
                             </form>
-
-
-
-
-
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={props.resetSearch}>Reset Filter</button>
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={props.callAPIWithSearch}>Search</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary buttonColor" data-bs-dismiss="modal" onClick={props.resetSearch}>Reset Filter</button>
+                            <button type="button" className="btn btn-primary buttonColor" data-bs-dismiss="modal" onClick={props.callAPIWithSearch}>Search</button>
                         </div>
                     </div>
                 </div>

@@ -8,4 +8,32 @@
 
 .searchButton:hover{
     background-image: linear-gradient(#b0aca1,#d4ccbc);
+    opacity: 0.7;
+}
+
+.budgetRange{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    border-radius: 10px;
+    background-color: rgba(244, 238, 227, 0.7);
+    /* rgba(244, 238, 227, .1) */
+}
+
+
+
+.searchPopUp{
+    /* background-image: linear-gradient(#a5875e,#886443); */
+    background-image: linear-gradient(#d4ccbc,#b0aca1);
+}
+
+.buttonColor{
+    /* background-image: linear-gradient(#d4ccbc,#b0aca1); */
+    background-image: linear-gradient(#a5875e,#886443);
+}
+
+.buttonColor:hover{
+    /* background-image: linear-gradient(#b0aca1,#d4ccbc); */
+    background-image: linear-gradient(#886443,#a5875e);
+    opacity: 0.7;
 }

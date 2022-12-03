@@ -8,7 +8,6 @@ import SingleRecipe from "../singleRecipe/SingleRecipe"
 import SearchPopup from "./SearchPopup"
 
 export default class SearchRecipe extends React.Component {
-
     state = {
         data: [],
         showGameData: [],
@@ -87,12 +86,19 @@ export default class SearchRecipe extends React.Component {
         })
     }
 
-
     validateMinMax(x, y) {
         if (parseFloat(x) > parseFloat(y)) {
             return <p style={{ color: "red" }}>*Please enter proper Min & Max amount</p>
         }
         else {
+            return null
+        }
+    }
+
+    validateText(text) {
+        if (text.includes(",")) {
+            return <p style={{ color: "red" }}>*Please enter only ONE Ingredient</p>
+        } else {
             return null
         }
     }
@@ -107,49 +113,80 @@ export default class SearchRecipe extends React.Component {
             />
         }
         else {
-            return (
-                <React.Fragment>
-                    <div className="p-4 m-3"></div>
-                    <h1 className='text-center fontCinB' style={{ fontSize: "30px" }}>Recipes</h1>
-                    <div className='d-flex justify-content-center'>
-                        <SearchPopup
-                            data={this.state.data}
-                            showGameData={this.state.showGameData}
-                            name={this.state.name}
-                            category={this.state.category}
-                            showGameId={this.state.showGameId}
-                            reqIngredients={this.state.reqIngredients}
-                            estCostMin={this.state.estCostMin}
-                            estCostMax={this.state.estCostMax}
-                            updateForm={this.updateForm}
-                            callAPIWithSearch={this.callAPIWithSearch}
-                            resetSearch={this.resetSearch}
-                            validateMinMax={this.validateMinMax}
-                        />
-                    </div>
-                    <div className='cardDisplay' >
-                        {
-                            this.state.data.map((each) => {
-                                return (
-                                    <div className="bigHover card mt-3 mx-2 cardDark"
-                                        style={{ textShadow: "2px 2px #00000" }} key={each._id}
-                                        onClick={() => {
-                                            this.setState({
-                                                viewSingleRecipe: true,
-                                                singleRecipeId: each._id
-                                            })
-                                        }}
-                                    >
-                                        <EachRecipe recipe={each} />
-                                    </div>
-                                )
-                            })
-                        }
-                    </div>
+            if (!(this.state.data[0] === undefined)) {
+                return (
+                    <React.Fragment>
+                        <div className="p-4 m-3"></div>
+                        <h1 className='text-center fontCinB' style={{ fontSize: "30px" }}>Recipes</h1>
+                        <div className='d-flex justify-content-center'>
+                            <SearchPopup
+                                data={this.state.data}
+                                showGameData={this.state.showGameData}
+                                name={this.state.name}
+                                category={this.state.category}
+                                showGameId={this.state.showGameId}
+                                reqIngredients={this.state.reqIngredients}
+                                estCostMin={this.state.estCostMin}
+                                estCostMax={this.state.estCostMax}
+                                updateForm={this.updateForm}
+                                callAPIWithSearch={this.callAPIWithSearch}
+                                resetSearch={this.resetSearch}
+                                validateMinMax={this.validateMinMax}
+                                validateText={this.validateText}
+                            />
+                        </div>
 
-                </React.Fragment>
-            )
+                        <div className='cardDisplay' >
+                            {
+                                this.state.data.map((each) => {
+                                    return (
+                                        <div className="bigHover card mt-3 mx-2 cardDark"
+                                            style={{ textShadow: "2px 2px #00000" }} key={each._id}
+                                            onClick={() => {
+                                                this.setState({
+                                                    viewSingleRecipe: true,
+                                                    singleRecipeId: each._id
+                                                })
+                                            }}
+                                        >
+                                            <EachRecipe recipe={each} />
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
 
+                    </React.Fragment>
+                )
+            } else {
+                return (
+                    <React.Fragment>
+                        <div className="p-4 m-3"></div>
+                        <h1 className='text-center fontCinB' style={{ fontSize: "30px" }}>Recipes</h1>
+                        <div className='d-flex justify-content-center'>
+                            <SearchPopup
+                                data={this.state.data}
+                                showGameData={this.state.showGameData}
+                                name={this.state.name}
+                                category={this.state.category}
+                                showGameId={this.state.showGameId}
+                                reqIngredients={this.state.reqIngredients}
+                                estCostMin={this.state.estCostMin}
+                                estCostMax={this.state.estCostMax}
+                                updateForm={this.updateForm}
+                                callAPIWithSearch={this.callAPIWithSearch}
+                                resetSearch={this.resetSearch}
+                                validateMinMax={this.validateMinMax}
+                                validateText={this.validateText}
+                            />
+                        </div>
+
+                        <div className='d-flex justify-content-center mt-3'>
+                            <p>No Recipe Found</p>
+                        </div>
+                    </React.Fragment>
+                )
+            }
         }
     }
 }

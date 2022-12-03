@@ -126,9 +126,6 @@ export default function SingleRecipe(props) {
                         </div>
                     </div>
                 </div>
-                <div className='editByContainer'>
-                    <p className='fontLust m-0 pe-2'>Last Edited: {singleRecipe.lastEdit} - {singleRecipe.userId[0].name}</p>
-                </div>
             </div>
             <div className='reviewContainer'>
             {showReviews()}
