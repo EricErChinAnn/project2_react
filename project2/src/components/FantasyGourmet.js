@@ -140,6 +140,8 @@ export default class Main extends React.Component {
 
   logout = () => {
     this.setState({
+      page: "home",
+
       //Login Acc
       loggedIn: false,
       loginKey: "",
