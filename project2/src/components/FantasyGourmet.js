@@ -33,7 +33,7 @@ export default class Main extends React.Component {
   BASE_API_URL = "http://localhost:3000/"
 
   renderPage = () => {
-    if (this.state.page === "home") { return <LandingPage page={this.state.page} /> }
+    if (this.state.page === "home") { return <LandingPage page={this.state.page} switchPage={this.switchPage}/> }
     else if (this.state.page === "search") { return <SearchRecipe /> }
     else if (this.state.page === "post") {
       return <PostRecipe
@@ -42,6 +42,11 @@ export default class Main extends React.Component {
       loginKey={this.state.loginKey}
       />
     }
+  }
+
+  backToTop = () => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }
 
   updateForm = (e) => {
@@ -210,6 +215,11 @@ export default class Main extends React.Component {
             </div>
           </div>
         </nav>
+
+
+        <button type="button" id='bttBtn' onClick={this.backToTop}
+        className="btn btn-secondary p-1 px-2 rounded-circle"><i className="bi bi-chevron-up p-0 m-0"></i></button>
+
 
         <Login
           loggedIn={this.state.loggedIn}

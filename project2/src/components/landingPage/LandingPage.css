@@ -1,0 +1,30 @@
+#imgOnLanding {
+    float: left;
+    width: 100%;
+    height: 95vh;
+    object-fit: cover;
+}
+
+.imgContainer {
+    position: relative;
+    text-align: center;
+}
+
+.centeredLandingImg {
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: blanchedalmond;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 90%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 20px;
+}
+
+#landingToRecipesBtn{
+    color: #312f2c;
+    background-image: linear-gradient(#d4ccbc, #b0aca1)
+}

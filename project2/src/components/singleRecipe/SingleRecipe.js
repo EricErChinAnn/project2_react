@@ -30,7 +30,7 @@ export default function SingleRecipe(props) {
         if (singleRecipe.foodTags[0]) {
             return (
                 <div className='my-1 mx-2'><p className='m-0 d-flex flex-row'><span className='bold'>Dietary Notes: </span>{singleRecipe.foodTags.map((each, i) => {
-                    return (<p className='mx-1 my-0 foodTags rounded-pill'>{each.name}</p>)
+                    return (<p className='mx-1 my-0 foodTags rounded-pill '>{each.name}</p>)
                 })}</p>
                 </div>
             )

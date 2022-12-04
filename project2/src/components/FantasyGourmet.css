@@ -1,3 +1,17 @@
 .accountBtn:hover{
     opacity: 0.6;
 }
+
+#bttBtn{
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 99;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  background-color: rgba(0, 0, 0);
+  color: white;
+  cursor: pointer;
+  opacity: 0.4;
+}
