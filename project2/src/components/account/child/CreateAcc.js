@@ -4,8 +4,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js"
 import "./CreateAcc.css"
 
 export default function CreateAcc(props) {
-    console.log(props.props)
-
 
 
     if (!props.props.createdAcc) {

@@ -21,13 +21,14 @@ export default class PostRecipe extends React.Component {
         cookingDuration: "",
         cookingTools: [],
         foodTags: [],
-        user_id: "",
+        user_id: "638b6051da726275dc1e906b",
         showGameId: "637c8efb7ee2af299ef3dd49"
     }
 
     BASE_API_URL = "http://localhost:3000/"
 
     async componentDidMount() {
+        console.log(this)
         // Load all resources in parallel
         let userList = await axios.get(this.BASE_API_URL + 'user', { params: { "email": this.props.loginEmail } });
         let tagData = await axios.get(this.BASE_API_URL + 'tags');
@@ -36,10 +37,12 @@ export default class PostRecipe extends React.Component {
         this.setState({
             dataFoodTag: tagData.data,
             dataShowGame: showGameData.data,
-            user_id: userList.data[0]._id
+            user_id: (userList.data[0]._id)
         })
 
-        console.log(userList.data);
+        console.log(userList.data[0]._id);
+        
+        console.log(this.state.user_id)
     }
 
     callAPIWithPost = async () => {
@@ -52,6 +55,7 @@ export default class PostRecipe extends React.Component {
             && this.state.cookingTools
             && this.state.showGameId
         ) {
+            console.log(this.state.user_id)
             await axios.post(this.BASE_API_URL + "addRecipe", {
                 name: this.state.name,
                 category: this.state.category,
@@ -66,7 +70,7 @@ export default class PostRecipe extends React.Component {
                 cookingTools: this.state.cookingTools,
                 showGameId: this.state.showGameId,
                 foodTags: this.state.foodTags,
-                user: this.state.user_id
+                user_id: this.state.user_id
             }
             )
             this.setState({
@@ -92,6 +96,7 @@ export default class PostRecipe extends React.Component {
             document.querySelector("#stepsValidate").style.display = "none"
             document.querySelector("#pictureValidate").style.display = "none"
             document.querySelector("#cookingDurationValidate").style.display = "none"
+            document.querySelector("#cookingToolsValidate").style.display = "none"
 
             return (
                 alert("New Recipe Created")
@@ -115,6 +120,9 @@ export default class PostRecipe extends React.Component {
 
             if (!this.state.cookingDuration) { document.querySelector("#cookingDurationValidate").style.display = "block" }
             else { document.querySelector("#cookingDurationValidate").style.display = "none" }
+
+            if (this.state.steps[0] === undefined || this.state.steps.includes("")) { document.querySelector("#cookingToolsValidate").style.display = "block" }
+            else { document.querySelector("#cookingToolsValidate").style.display = "none" }
 
             return (alert("Please enter all required fields"))
         }
@@ -468,7 +476,7 @@ export default class PostRecipe extends React.Component {
                             </div>
                             <div>
                                 <p id="cookingToolsValidate"
-                                    style={{ color: "red" }}>*Please enter cooking tools used </p>
+                                    style={{ display:"none", color: "red" }}>*Please enter cooking tools used </p>
                             </div>
                         </div>
                         {this.state.cookingTools.map((e, i) => {
