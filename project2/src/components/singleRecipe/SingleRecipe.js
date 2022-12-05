@@ -6,6 +6,7 @@ import { getStar, getStarReview } from "../module/GetStar"
 import { getShowGameIcon } from '../module/GetShowGame'
 
 export default function SingleRecipe(props) {
+
     let singleRecipe = null
     props.data.map((e) => {
         if (e._id === props.singleRecipeId) { return singleRecipe = e }
@@ -49,7 +50,6 @@ export default function SingleRecipe(props) {
         }
     }
 
-    console.log(singleRecipe)
     let showReviews = () => {
         if (singleRecipe.reviewId[0]) {
             return (
@@ -71,16 +71,31 @@ export default function SingleRecipe(props) {
         }
     }
 
+    let enableEditDelete = ()=>{
+        if(singleRecipe.userId[0]._id===props.editMatchUserId){
+            return(
+                <div id="editDeleteBtn">
+                    <i className="bi bi-pencil-square rounded p-1 px-2 me-2 hoverDropOpacity" 
+                    style={{backgroundColor:"rgba( 64.71%, 52.94%, 36.86% ,0.9)", color:"white"}}
+                    onClick={()=>{props.goToEditRecipe()}}
+                    ></i>
+                    <i className="bi bi-trash3 rounded p-1 px-2 hoverDropOpacity" 
+                    style={{backgroundColor:"rgba(139,0,0,0.7)", color:"white" }}></i>
+                    </div>
+            )
+        }
+    } 
+
     return (
         <React.Fragment>
             <div className="p-4 m-2"></div>
-
-            <div className='m-3 rounded-2 backgroundHolder'>
-                <div className=' px-3 py-2'>
-                    <i className="bi bi-caret-left fontCinN mouseOverCursor"
+            <div className='m-3 rounded-2 backgroundHolder pt-1'>
+                <div className='d-flex justify-content-between px-3 py-2'>
+                    <i className="bi bi-caret-left fontCinN mouseOverCursor hoverDropOpacity"
                         onClick={() => { props.backToRecipe() }}
                         style={{ fontSize: "20px" }}
                     >Back</i>
+                    {enableEditDelete()}
                 </div>
                 <div className='imgContainer'>
                     <img className="mt-0 foodImg holder m-3" src={singleRecipe.picture} alt="Food Display"></img>
@@ -132,4 +147,5 @@ export default function SingleRecipe(props) {
             </div>
         </React.Fragment>
     )
+    
 }

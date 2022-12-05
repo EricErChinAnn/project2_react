@@ -64,13 +64,15 @@ export default function Login(props) {
                                                 aria-label="Username" aria-describedby="basic-addon1"
                                                 value={props.loginPassword} name="loginPassword" onChange={props.updateForm} />
                                         </div>
+                                        <div className="ps-2 mb-3" id="loginValidate"
+                                        style={{display:"none", color:"red"}}>*Incorrect Email or Password</div>
                                         {props.loginCheck()}
                                     </div>
                                     <div className='d-flex justify-content-center'>
                                         <button type="button" className="btn btn-secondary m-2"
                                             onClick={props.resetLogin}>Reset</button>
-                                        <button type="button" className="btn btn-primary m-2"
-                                            onClick={props.login} data-bs-dismiss="modal">Login</button>
+                                        <button type="button" id="loginModalToggle" className="btn btn-primary m-2"
+                                            onClick={props.login} >Login</button>
                                     </div>
                                 </div>
 

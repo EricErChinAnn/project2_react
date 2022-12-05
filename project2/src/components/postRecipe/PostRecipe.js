@@ -21,14 +21,13 @@ export default class PostRecipe extends React.Component {
         cookingDuration: "",
         cookingTools: [],
         foodTags: [],
-        user_id: "638b6051da726275dc1e906b",
+        user_id: "",
         showGameId: "637c8efb7ee2af299ef3dd49"
     }
 
     BASE_API_URL = "http://localhost:3000/"
 
     async componentDidMount() {
-        console.log(this)
         // Load all resources in parallel
         let userList = await axios.get(this.BASE_API_URL + 'user', { params: { "email": this.props.loginEmail } });
         let tagData = await axios.get(this.BASE_API_URL + 'tags');
@@ -39,23 +38,18 @@ export default class PostRecipe extends React.Component {
             dataShowGame: showGameData.data,
             user_id: (userList.data[0]._id)
         })
-
-        console.log(userList.data[0]._id);
-        
-        console.log(this.state.user_id)
     }
 
     callAPIWithPost = async () => {
         if (this.state.name
             && this.state.estCost
-            && this.state.reqIngredients
-            && this.state.steps
+            && this.state.reqIngredients.length>0
+            && this.state.steps.length>0
             && this.state.picture
             && this.state.cookingDuration
-            && this.state.cookingTools
+            && this.state.cookingTools.length>0 
             && this.state.showGameId
         ) {
-            console.log(this.state.user_id)
             await axios.post(this.BASE_API_URL + "addRecipe", {
                 name: this.state.name,
                 category: this.state.category,
@@ -216,7 +210,6 @@ export default class PostRecipe extends React.Component {
 
 
     updateFormArrayStepsAdd = (e) => {
-        console.log(e.target)
         const modify = [
             ...this.state.steps.slice(),
             ""

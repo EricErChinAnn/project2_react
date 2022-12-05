@@ -33,13 +33,18 @@ export default class Main extends React.Component {
   BASE_API_URL = "http://localhost:3000/"
 
   renderPage = () => {
-    if (this.state.page === "home") { return <LandingPage page={this.state.page} switchPage={this.switchPage}/> }
-    else if (this.state.page === "search") { return <SearchRecipe /> }
+    if (this.state.page === "home") { return <LandingPage page={this.state.page} switchPage={this.switchPage} /> }
+    else if (this.state.page === "search") {
+      return <SearchRecipe
+        loginEmail={this.state.loginEmail}
+        loginKey={this.state.loginKey}
+      />
+    }
     else if (this.state.page === "post") {
       return <PostRecipe
-      loginEmail={this.state.loginEmail} 
-      loginPassword={this.state.loginPassword}
-      loginKey={this.state.loginKey}
+        loginEmail={this.state.loginEmail}
+        loginPassword={this.state.loginPassword}
+        loginKey={this.state.loginKey}
       />
     }
   }
@@ -60,37 +65,45 @@ export default class Main extends React.Component {
   }
 
   login = async () => {
-    const login = await axios.post(this.BASE_API_URL + "login", {
-      loginEmail: this.state.loginEmail,
-      loginPassword: this.state.loginPassword
-    })
-    console.log(login.data)
-    this.setState({
-      loginKey: login.data,
-    })
-    setTimeout(
-      () => {
-        if (this.state.loginKey.accessToken) {
-          return (
-            this.setState({
-              loggedIn: true,
-              createdAcc: false,
-              nameNewAcc: "",
-              emailNewAcc: "",
-              passwordNewAcc: "",
-              dobNewAcc: ""
-            })
-          )
+    if (this.state.loginEmail && this.state.loginPassword) {
+      document.querySelector("#loginModalToggle").dataBsDismiss="modal"
+      document.querySelector("#loginValidate").style.display="none"
+
+      const login = await axios.post(this.BASE_API_URL + "login", {
+        loginEmail: this.state.loginEmail,
+        loginPassword: this.state.loginPassword
+      })
+      console.log(login.data)
+      this.setState({
+        loginKey: login.data,
+        page: "home"
+      })
+      setTimeout(
+        () => {
+          if (this.state.loginKey.accessToken) {
+            return (
+              this.setState({
+                loggedIn: true,
+                createdAcc: false,
+                nameNewAcc: "",
+                emailNewAcc: "",
+                passwordNewAcc: "",
+                dobNewAcc: ""
+              })
+            )
+          }
         }
-      }
-      , 1)
-    // if (this.state.loginKey.accessToken){
-    //   return(
-    //     this.setState({
-    //       loggedIn: true
-    //     })
-    //   )
-    // }
+        , 1)
+      // if (this.state.loginKey.accessToken){
+      //   return(
+      //     this.setState({
+      //       loggedIn: true
+      //     })
+      //   )
+      // }
+    } else {
+      document.querySelector("#loginValidate").style.display="block"
+    }
   }
 
   loginCheck = () => {
@@ -140,6 +153,27 @@ export default class Main extends React.Component {
         loginPassword: this.state.passwordNewAcc,
         loginName: this.state.nameNewAcc
       }))
+    } else {
+      if(!this.state.nameNewAcc)
+      {document.querySelector("#nameValidateCreate").style.display="block";}
+      else
+      {document.querySelector("#nameValidateCreate").style.display="none";}
+
+      if(!this.state.emailNewAcc)
+      {document.querySelector("#emailValidateCreate").style.display="block";}
+      else
+      {document.querySelector("#emailValidateCreate").style.display="none";}
+
+      if(!this.state.dobNewAcc)
+      {document.querySelector("#dobValidateCreate").style.display="block";}
+      else
+      {document.querySelector("#dobValidateCreate").style.display="none";}
+      
+      if(!this.state.passwordNewAcc || this.state.passwordNewAcc.length<8)
+      {document.querySelector("#passwordValidateCreate").style.display="block";}
+      else
+      {document.querySelector("#passwordValidateCreate").style.display="none";}
+
     }
   }
 
@@ -218,7 +252,7 @@ export default class Main extends React.Component {
 
 
         <button type="button" id='bttBtn' onClick={this.backToTop}
-        className="btn btn-secondary p-1 px-2 rounded-circle"><i className="bi bi-chevron-up p-0 m-0"></i></button>
+          className="btn btn-secondary p-1 px-2 rounded-circle"><i className="bi bi-chevron-up p-0 m-0"></i></button>
 
 
         <Login

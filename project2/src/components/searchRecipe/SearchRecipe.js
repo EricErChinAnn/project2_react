@@ -6,6 +6,7 @@ import axios from 'axios'
 import EachRecipe from "./child/EachRecipe"
 import SingleRecipe from "../singleRecipe/SingleRecipe"
 import SearchPopup from "./SearchPopup"
+import EditSingleRecipe from "../singleRecipe/child/EditSingleRecipe"
 
 export default class SearchRecipe extends React.Component {
     state = {
@@ -13,6 +14,9 @@ export default class SearchRecipe extends React.Component {
         showGameData: [],
         viewSingleRecipe: false,
         singleRecipeId: "",
+
+        editSingleRecipe: false,
+        editMatchUserId: "",
 
         //Search Stuff Via
         name: "",
@@ -28,15 +32,38 @@ export default class SearchRecipe extends React.Component {
     async componentDidMount() {
         const response = await axios.get(this.BASE_API_URL + "recipe");
         const showGameData = await axios.get(this.BASE_API_URL + "showGame");
+        const userData = await axios.get(this.BASE_API_URL + "userPass", { params: { "email": this.props.loginEmail } })
+
         this.setState({
             data: response.data,
             showGameData: showGameData.data,
         })
+
+        if (userData.data.length === 1) {
+            this.setState({
+                editMatchUserId: userData.data[0]._id,
+            })
+        }
     }
 
     backToRecipe = () => {
         this.setState({
-            viewSingleRecipe: (!this.state.viewSingleRecipe)
+            viewSingleRecipe: false,
+            editSingleRecipe: false
+        })
+    }
+
+    goToEditRecipe = () => {
+        this.setState({
+            viewSingleRecipe: false,
+            editSingleRecipe: true
+        })
+    }
+
+    backToSingleRecipe = () => {
+        this.setState({
+            viewSingleRecipe: true,
+            editSingleRecipe: false
         })
     }
 
@@ -67,11 +94,11 @@ export default class SearchRecipe extends React.Component {
             estCostMax: 100,
             data: replacement.data
         })
-        document.querySelector("#searchReqIngValidate").style.display="none"
+        document.querySelector("#searchReqIngValidate").style.display = "none"
     }
 
     callAPIWithSearch = async () => {
-        if (!((this.state.reqIngredients.filter((e)=>{return (e==="")})).length>0)) {
+        if (!((this.state.reqIngredients.filter((e) => { return (e === "") })).length > 0)) {
             const replacement = await axios.get(this.BASE_API_URL + "recipe", {
                 params: {
                     data: this.state.data,
@@ -86,9 +113,9 @@ export default class SearchRecipe extends React.Component {
             this.setState({
                 data: replacement.data
             })
-            document.querySelector("#searchReqIngValidate").style.display="none"
+            document.querySelector("#searchReqIngValidate").style.display = "none"
         } else {
-            document.querySelector("#searchReqIngValidate").style.display="block"
+            document.querySelector("#searchReqIngValidate").style.display = "block"
         }
     }
 
@@ -133,91 +160,115 @@ export default class SearchRecipe extends React.Component {
         })
     }
 
+
     render() {
-        if (this.state.viewSingleRecipe) {
-            return <SingleRecipe
+        if (this.state.editSingleRecipe) {
+            return <EditSingleRecipe
+                editSingleRecipe={this.state.editSingleRecipe}
                 viewSingleRecipe={this.state.viewSingleRecipe}
-                data={this.state.data}
+                
                 singleRecipeId={this.state.singleRecipeId}
-                backToRecipe={this.backToRecipe}
+
+                editMatchUserId={this.state.editMatchUserId}
+                loginEmail={this.props.loginEmail}
+                loginKey={this.props.loginKey}
+                
+                data={this.state.data}
+                backToSingleRecipe={this.backToSingleRecipe}
+                goToEditRecipe={this.goToEditRecipe}
             />
         }
         else {
-            if (!(this.state.data[0] === undefined)) {
-                return (
-                    <React.Fragment>
-                        <div className="p-4 m-3"></div>
-                        <h1 className='text-center fontCinB' style={{ fontSize: "30px" }}>Recipes</h1>
-                        <div className='d-flex justify-content-center'>
-                            <SearchPopup
-                                data={this.state.data}
-                                showGameData={this.state.showGameData}
-                                name={this.state.name}
-                                category={this.state.category}
-                                showGameId={this.state.showGameId}
-                                reqIngredients={this.state.reqIngredients}
-                                estCostMin={this.state.estCostMin}
-                                estCostMax={this.state.estCostMax}
-                                updateForm={this.updateForm}
-                                callAPIWithSearch={this.callAPIWithSearch}
-                                resetSearch={this.resetSearch}
-                                validateMinMax={this.validateMinMax}
-                                validateText={this.validateText}
-                                updateFormArraySearchIng={this.updateFormArraySearchIng}
-                                updateFormArraySearchIngAdd={this.updateFormArraySearchIngAdd}
-                            />
-                        </div>
-
-                        <div className='cardDisplay' >
-                            {
-                                this.state.data.map((each) => {
-                                    return (
-                                        <div className="bigHover card mt-3 mx-2 cardDark"
-                                            style={{ textShadow: "2px 2px #00000" }} key={each._id}
-                                            onClick={() => {
-                                                this.setState({
-                                                    viewSingleRecipe: true,
-                                                    singleRecipeId: each._id
-                                                })
-                                            }}
-                                        >
-                                            <EachRecipe recipe={each} />
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-
-                    </React.Fragment>
-                )
+            if (this.state.viewSingleRecipe) {
+                return <SingleRecipe
+                    editSingleRecipe={this.state.editSingleRecipe}
+                    viewSingleRecipe={this.state.viewSingleRecipe}
+                    data={this.state.data}
+                    singleRecipeId={this.state.singleRecipeId}
+                    backToRecipe={this.backToRecipe}
+                    backToSingleRecipe={this.backToSingleRecipe}
+                    editMatchUserId={this.state.editMatchUserId}
+                    loginEmail={this.props.loginEmail}
+                    loginKey={this.props.loginKey}
+                    goToEditRecipe={this.goToEditRecipe}
+                />
             } else {
-                return (
-                    <React.Fragment>
-                        <div className="p-4 m-3"></div>
-                        <h1 className='text-center fontCinB' style={{ fontSize: "30px" }}>Recipes</h1>
-                        <div className='d-flex justify-content-center'>
-                            <SearchPopup
-                                data={this.state.data}
-                                showGameData={this.state.showGameData}
-                                name={this.state.name}
-                                category={this.state.category}
-                                showGameId={this.state.showGameId}
-                                reqIngredients={this.state.reqIngredients}
-                                estCostMin={this.state.estCostMin}
-                                estCostMax={this.state.estCostMax}
-                                updateForm={this.updateForm}
-                                callAPIWithSearch={this.callAPIWithSearch}
-                                resetSearch={this.resetSearch}
-                                validateMinMax={this.validateMinMax}
-                                validateText={this.validateText}
-                            />
-                        </div>
+                if (this.state.data.length > 0) {
+                    return (
+                        <React.Fragment>
+                            <div className="p-4 m-3"></div>
+                            <h1 className='text-center fontCinB' style={{ fontSize: "30px" }}>Recipes</h1>
+                            <div className='d-flex justify-content-center'>
+                                <SearchPopup
+                                    data={this.state.data}
+                                    showGameData={this.state.showGameData}
+                                    name={this.state.name}
+                                    category={this.state.category}
+                                    showGameId={this.state.showGameId}
+                                    reqIngredients={this.state.reqIngredients}
+                                    estCostMin={this.state.estCostMin}
+                                    estCostMax={this.state.estCostMax}
+                                    updateForm={this.updateForm}
+                                    callAPIWithSearch={this.callAPIWithSearch}
+                                    resetSearch={this.resetSearch}
+                                    validateMinMax={this.validateMinMax}
+                                    validateText={this.validateText}
+                                    updateFormArraySearchIng={this.updateFormArraySearchIng}
+                                    updateFormArraySearchIngAdd={this.updateFormArraySearchIngAdd}
+                                />
+                            </div>
 
-                        <div className='d-flex justify-content-center mt-3'>
-                            <p>No Recipe Found</p>
-                        </div>
-                    </React.Fragment>
-                )
+                            <div className='cardDisplay' >
+                                {
+                                    this.state.data.map((each) => {
+                                        return (
+                                            <div className="bigHover card mt-3 mx-2 cardDark"
+                                                style={{ textShadow: "2px 2px #00000" }} key={each._id}
+                                                onClick={() => {
+                                                    this.setState({
+                                                        viewSingleRecipe: true,
+                                                        singleRecipeId: each._id
+                                                    })
+                                                }}
+                                            >
+                                                <EachRecipe recipe={each} />
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+
+                        </React.Fragment>
+                    )
+                } else {
+                    return (
+                        <React.Fragment>
+                            <div className="p-4 m-3"></div>
+                            <h1 className='text-center fontCinB' style={{ fontSize: "30px" }}>Recipes</h1>
+                            <div className='d-flex justify-content-center'>
+                                <SearchPopup
+                                    data={this.state.data}
+                                    showGameData={this.state.showGameData}
+                                    name={this.state.name}
+                                    category={this.state.category}
+                                    showGameId={this.state.showGameId}
+                                    reqIngredients={this.state.reqIngredients}
+                                    estCostMin={this.state.estCostMin}
+                                    estCostMax={this.state.estCostMax}
+                                    updateForm={this.updateForm}
+                                    callAPIWithSearch={this.callAPIWithSearch}
+                                    resetSearch={this.resetSearch}
+                                    validateMinMax={this.validateMinMax}
+                                    validateText={this.validateText}
+                                />
+                            </div>
+
+                            <div className='d-flex justify-content-center mt-3 fontCinB'>
+                                <p>No Recipe Found</p>
+                            </div>
+                        </React.Fragment>
+                    )
+                }
             }
         }
     }
