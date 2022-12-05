@@ -18,7 +18,7 @@ export default class SearchRecipe extends React.Component {
         name: "",
         category: "",
         showGameId: "",
-        reqIngredients: "",
+        reqIngredients: [],
         estCostMin: 1.00,
         estCostMax: 100.00
     }
@@ -53,7 +53,7 @@ export default class SearchRecipe extends React.Component {
                 name: "",
                 category: "",
                 showGameId: "",
-                reqIngredients: "",
+                reqIngredients: [],
                 estCostMin: 1,
                 estCostMax: 100
             }
@@ -62,28 +62,34 @@ export default class SearchRecipe extends React.Component {
             name: "",
             category: "",
             showGameId: "",
-            reqIngredients: "",
+            reqIngredients: [],
             estCostMin: 1,
             estCostMax: 100,
             data: replacement.data
         })
+        document.querySelector("#searchReqIngValidate").style.display="none"
     }
 
     callAPIWithSearch = async () => {
-        const replacement = await axios.get(this.BASE_API_URL + "recipe", {
-            params: {
-                data: this.state.data,
-                name: this.state.name,
-                category: this.state.category,
-                showGameId: this.state.showGameId,
-                reqIngredients: this.state.reqIngredients,
-                estCostMin: this.state.estCostMin,
-                estCostMax: this.state.estCostMax
-            }
-        })
-        this.setState({
-            data: replacement.data
-        })
+        if (!((this.state.reqIngredients.filter((e)=>{return (e==="")})).length>0)) {
+            const replacement = await axios.get(this.BASE_API_URL + "recipe", {
+                params: {
+                    data: this.state.data,
+                    name: this.state.name,
+                    category: this.state.category,
+                    showGameId: this.state.showGameId,
+                    reqIngredients: this.state.reqIngredients,
+                    estCostMin: this.state.estCostMin,
+                    estCostMax: this.state.estCostMax
+                }
+            })
+            this.setState({
+                data: replacement.data
+            })
+            document.querySelector("#searchReqIngValidate").style.display="none"
+        } else {
+            document.querySelector("#searchReqIngValidate").style.display="block"
+        }
     }
 
     validateMinMax(x, y) {
@@ -101,6 +107,30 @@ export default class SearchRecipe extends React.Component {
         } else {
             return null
         }
+    }
+
+    updateFormArraySearchIngAdd = (e) => {
+        const modify = [
+            ...this.state.reqIngredients.slice(),
+            ""
+        ]
+
+        this.setState({
+            reqIngredients: modify
+        })
+    }
+
+    updateFormArraySearchIng = (e) => {
+        let index = e.target.ariaLabel
+        const modify = [
+            ...this.state.reqIngredients.slice(0, index),
+            e.target.value,
+            ...this.state.reqIngredients.slice(index + 1)
+        ]
+
+        this.setState({
+            reqIngredients: modify
+        })
     }
 
     render() {
@@ -133,6 +163,8 @@ export default class SearchRecipe extends React.Component {
                                 resetSearch={this.resetSearch}
                                 validateMinMax={this.validateMinMax}
                                 validateText={this.validateText}
+                                updateFormArraySearchIng={this.updateFormArraySearchIng}
+                                updateFormArraySearchIngAdd={this.updateFormArraySearchIngAdd}
                             />
                         </div>
 

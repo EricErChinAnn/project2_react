@@ -3,6 +3,7 @@ import "./SearchPopup.css"
 // import {validateMinMax} from "../module/Validate"
 
 export default function EachRecipe(props) {
+
     return (
         <React.Fragment>
             <button type="button" className="btn fontLust searchButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -69,11 +70,28 @@ export default function EachRecipe(props) {
                                     <div className="validationMinMax">Min Amount cannot be larger then Max Amount</div>
                                 </div>
 
-                                <div className="input-group my-2">
-                                    <input type="text" className="form-control" placeholder="Search via Single Ingredient"
-                                        name="reqIngredients" value={props.reqIngredients} onInput={props.updateForm} />
+                                <div className="d-flex flex-column align-items-center ingredientArraySearch">
+                                    <div className='mb-3'>
+                                        <div className="input-group">
+                                            <span className="input-group-text">Cooking Tools</span>
+                                            <button type="button" className="btn btn-primary" onClick={props.updateFormArraySearchIngAdd}><i className="bi bi-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <p id="searchReqIngValidate"
+                                    style={{display:"none", color: "red" }}>*Please do not leave empty textbox</p>
+                                    {props.reqIngredients.map((e, i) => {
+                                        return (
+                                            <div className="input-group mb-3" key={i}>
+                                                <span className="input-group-text">{i + 1}</span>
+                                                <input type="text" className="form-control" placeholder="Write 1 ingredient at a time"
+                                                    aria-label={i} value={e} aria-describedby="basic-addon1" onChange={props.updateFormArraySearchIng} />
+                                            </div>
+                                        )
+                                    })}
                                 </div>
-                                {props.validateText(props.reqIngredients)}
+
+
+
 
                             </form>
                         </div>

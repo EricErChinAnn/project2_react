@@ -20,6 +20,17 @@
     /* rgba(244, 238, 227, .1) */
 }
 
+.ingredientArraySearch{
+
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 10px;
+    background-color: rgba(244, 238, 227, 0.7);
+    /* rgba(244, 238, 227, .1) */
+}
+
 
 
 .searchPopUp{
