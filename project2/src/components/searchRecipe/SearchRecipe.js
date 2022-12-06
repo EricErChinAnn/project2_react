@@ -24,7 +24,7 @@ export default class SearchRecipe extends React.Component {
         showGameId: "",
         reqIngredients: [],
         estCostMin: 1.00,
-        estCostMax: 100.00
+        estCostMax: 100.00,
     }
 
     BASE_API_URL = "http://localhost:3000/"
@@ -45,6 +45,7 @@ export default class SearchRecipe extends React.Component {
             })
         }
     }
+
 
     backToRecipe = () => {
         this.setState({
@@ -166,7 +167,7 @@ export default class SearchRecipe extends React.Component {
             return <EditSingleRecipe
                 editSingleRecipe={this.state.editSingleRecipe}
                 viewSingleRecipe={this.state.viewSingleRecipe}
-                
+
                 singleRecipeId={this.state.singleRecipeId}
 
                 editMatchUserId={this.state.editMatchUserId}
@@ -174,8 +175,10 @@ export default class SearchRecipe extends React.Component {
                 loginKey={this.props.loginKey}
                 
                 data={this.state.data}
+                backToRecipe={this.backToRecipe}
                 backToSingleRecipe={this.backToSingleRecipe}
                 goToEditRecipe={this.goToEditRecipe}
+                switchPage={this.props.switchPage}
             />
         }
         else {
@@ -191,6 +194,7 @@ export default class SearchRecipe extends React.Component {
                     loginEmail={this.props.loginEmail}
                     loginKey={this.props.loginKey}
                     goToEditRecipe={this.goToEditRecipe}
+                    switchPage={this.props.switchPage}
                 />
             } else {
                 if (this.state.data.length > 0) {

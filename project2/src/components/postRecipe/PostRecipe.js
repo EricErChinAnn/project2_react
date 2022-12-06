@@ -43,11 +43,11 @@ export default class PostRecipe extends React.Component {
     callAPIWithPost = async () => {
         if (this.state.name
             && this.state.estCost
-            && this.state.reqIngredients.length>0
-            && this.state.steps.length>0
+            && this.state.reqIngredients.length > 0
+            && this.state.steps.length > 0
             && this.state.picture
             && this.state.cookingDuration
-            && this.state.cookingTools.length>0 
+            && this.state.cookingTools.length > 0
             && this.state.showGameId
         ) {
             await axios.post(this.BASE_API_URL + "addRecipe", {
@@ -149,63 +149,103 @@ export default class PostRecipe extends React.Component {
     }
     updateFormArraySteps = (e) => {
         let index = e.target.ariaLabel
-        const modify = [
-            ...this.state.steps.slice(0, index),
-            e.target.value,
-            ...this.state.steps.slice(index + 1)
-        ]
+
+        let clonedArr = [...this.state.steps]
+        clonedArr[index] = e.target.value
 
         this.setState({
-            steps: modify
+            steps: clonedArr
         })
+
+        // const modify = [
+        //     ...this.state.steps.slice(0, index),
+        //     e.target.value,
+        //     ...this.state.steps.slice(index + 1)
+        // ]
+
+        // this.setState({
+        //     steps: modify
+        // })
     }
     updateFormArrayPrepSteps = (e) => {
         let index = e.target.ariaLabel
-        const modify = [
-            ...this.state.prepSteps.slice(0, index),
-            e.target.value,
-            ...this.state.prepSteps.slice(index + 1)
-        ]
+
+        let clonedArr = [...this.state.prepSteps]
+        clonedArr[index] = e.target.value
 
         this.setState({
-            prepSteps: modify
+            prepSteps: clonedArr
         })
+
+        // const modify = [
+        //     ...this.state.prepSteps.slice(0, index),
+        //     e.target.value,
+        //     ...this.state.prepSteps.slice(index + 1)
+        // ]
+
+        // this.setState({
+        //     prepSteps: modify
+        // })
     }
     updateFormArrayOpIng = (e) => {
         let index = e.target.ariaLabel
-        const modify = [
-            ...this.state.optionalIngredients.slice(0, index),
-            e.target.value,
-            ...this.state.optionalIngredients.slice(index + 1)
-        ]
+
+        let clonedArr = [...this.state.optionalIngredients]
+        clonedArr[index] = e.target.value
 
         this.setState({
-            optionalIngredients: modify
+            optionalIngredients: clonedArr
         })
+
+        // const modify = [
+        //     ...this.state.optionalIngredients.slice(0, index),
+        //     e.target.value,
+        //     ...this.state.optionalIngredients.slice(index + 1)
+        // ]
+
+        // this.setState({
+        //     optionalIngredients: modify
+        // })
     }
     updateFormArrayReqIng = (e) => {
         let index = e.target.ariaLabel
-        const modify = [
-            ...this.state.reqIngredients.slice(0, index),
-            e.target.value,
-            ...this.state.reqIngredients.slice(index + 1)
-        ]
+
+        let clonedArr = [...this.state.reqIngredients]
+        clonedArr[index] = e.target.value
 
         this.setState({
-            reqIngredients: modify
+            reqIngredients: clonedArr
         })
+
+        // const modify = [
+        //     ...this.state.reqIngredients.slice(0, index),
+        //     e.target.value,
+        //     ...this.state.reqIngredients.slice(index + 1)
+        // ]
+
+        // this.setState({
+        //     reqIngredients: modify
+        // })
     }
     updateFormArrayTool = (e) => {
         let index = e.target.ariaLabel
-        const modify = [
-            ...this.state.cookingTools.slice(0, index),
-            e.target.value,
-            ...this.state.cookingTools.slice(index + 1)
-        ]
+
+        let clonedArr = [...this.state.cookingTools]
+        clonedArr[index] = e.target.value
 
         this.setState({
-            cookingTools: modify
+            cookingTools: clonedArr
         })
+
+        // const modify = [
+        //     ...this.state.cookingTools.slice(0, index),
+        //     e.target.value,
+        //     ...this.state.cookingTools.slice(index + 1)
+        // ]
+
+        // this.setState({
+        //     cookingTools: modify
+        // })
     }
 
 
@@ -291,8 +331,13 @@ export default class PostRecipe extends React.Component {
             <React.Fragment>
                 <div className="p-4 m-3"></div>
                 <div id='formCreateR' className='fontLust d-flex flex-column justify-content-center m-3 p-4 rounded'>
+                <i className="bi bi-caret-left fontCinN mouseOverCursor hoverDropOpacity mb-3"
+                        onClick={() => { this.props.switchPage("home") }}
+                        style={{ fontSize: "20px" }}
+                    >Back</i>
                     <div className='justify-content-center d-flex fontCinB '><h1>Create New Recipe</h1></div>
                     <div className='drawALine mb-3'></div>
+                    
                     {/* Name */}
                     <div className="mb-3">
                         <div className="input-group">
@@ -352,7 +397,7 @@ export default class PostRecipe extends React.Component {
                         </div>
                         <div>
                             <p id="pictureValidate"
-                                style={{display:"none", color: "red" }}>*Please enter URL to your picture</p>
+                                style={{ display: "none", color: "red" }}>*Please enter URL to your picture</p>
                         </div>
                     </div>
 
@@ -372,7 +417,7 @@ export default class PostRecipe extends React.Component {
                         </div>
                         <div>
                             <p id="cookingDurationValidate"
-                                style={{ display:"none", color: "red" }}>*Please enter cooking duration </p>
+                                style={{ display: "none", color: "red" }}>*Please enter cooking duration </p>
                         </div>
                     </div>
 
@@ -469,7 +514,7 @@ export default class PostRecipe extends React.Component {
                             </div>
                             <div>
                                 <p id="cookingToolsValidate"
-                                    style={{ display:"none", color: "red" }}>*Please enter cooking tools used </p>
+                                    style={{ display: "none", color: "red" }}>*Please enter cooking tools used </p>
                             </div>
                         </div>
                         {this.state.cookingTools.map((e, i) => {
@@ -502,7 +547,7 @@ export default class PostRecipe extends React.Component {
                             })}
                         </div>
                     </div>
-                    
+
                     <button type="button" className="btn btn-secondary m-2"
                         onClick={this.resetCreateForm}>Reset</button>
                     <button type="button" className="btn btn-primary m-2"

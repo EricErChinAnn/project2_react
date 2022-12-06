@@ -4,6 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js"
 import "./SingleRecipe.css"
 import { getStar, getStarReview } from "../module/GetStar"
 import { getShowGameIcon } from '../module/GetShowGame'
+import axios from "axios"
 
 export default function SingleRecipe(props) {
 
@@ -71,20 +72,31 @@ export default function SingleRecipe(props) {
         }
     }
 
-    let enableEditDelete = ()=>{
-        if(singleRecipe.userId[0]._id===props.editMatchUserId){
-            return(
+    let deleteRecipe = async (recipeId) => {
+        await axios.delete("http://localhost:3000/" + `deleteRecipe/${recipeId}`) 
+
+        props.backToRecipe()
+        props.switchPage("home")        
+
+        alert("Recipe is deleted")
+    }
+
+    let enableEditDelete = () => {
+        if (singleRecipe.userId[0]._id === props.editMatchUserId) {
+            return (
                 <div id="editDeleteBtn">
-                    <i className="bi bi-pencil-square rounded p-1 px-2 me-2 hoverDropOpacity" 
-                    style={{backgroundColor:"rgba( 64.71%, 52.94%, 36.86% ,0.9)", color:"white"}}
-                    onClick={()=>{props.goToEditRecipe()}}
+                    <i className="bi bi-pencil-square rounded p-1 px-2 me-2 hoverDropOpacity"
+                        style={{ backgroundColor: "rgba( 64.71%, 52.94%, 36.86% ,0.9)", color: "white" }}
+                        onClick={() => { props.goToEditRecipe() }}
                     ></i>
-                    <i className="bi bi-trash3 rounded p-1 px-2 hoverDropOpacity" 
-                    style={{backgroundColor:"rgba(139,0,0,0.7)", color:"white" }}></i>
-                    </div>
+                    <i className="bi bi-trash3 rounded p-1 px-2 hoverDropOpacity"
+                        style={{ backgroundColor: "rgba(139,0,0,0.7)", color: "white" }}
+                        onClick={()=>{deleteRecipe(props.singleRecipeId)}}    
+                    ></i>
+                </div>
             )
         }
-    } 
+    }
 
     return (
         <React.Fragment>
@@ -143,9 +155,9 @@ export default function SingleRecipe(props) {
                 </div>
             </div>
             <div className='reviewContainer'>
-            {showReviews()}
+                {showReviews()}
             </div>
         </React.Fragment>
     )
-    
+
 }

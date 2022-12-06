@@ -38,10 +38,12 @@ export default class Main extends React.Component {
       return <SearchRecipe
         loginEmail={this.state.loginEmail}
         loginKey={this.state.loginKey}
+        switchPage={this.switchPage}
       />
     }
     else if (this.state.page === "post") {
       return <PostRecipe
+        switchPage={this.switchPage}
         loginEmail={this.state.loginEmail}
         loginPassword={this.state.loginPassword}
         loginKey={this.state.loginKey}
@@ -73,7 +75,7 @@ export default class Main extends React.Component {
         loginEmail: this.state.loginEmail,
         loginPassword: this.state.loginPassword
       })
-      console.log(login.data)
+      
       this.setState({
         loginKey: login.data,
         page: "home"
