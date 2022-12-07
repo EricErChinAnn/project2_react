@@ -24,7 +24,7 @@ export default function EachRecipe(props) {
                         </div>
                         <div className="d-flex flex-row flex-wrap">{props.recipe.foodTags.map((e, i) => {
                             return (
-                                <p className="my-1 mx-1 px-3 rounded-pill fontLust" key={i} style={{ fontSize: "0.8rem", color: "#f4eee3", backgroundColor: "#886443" }}>{e.name}</p>
+                                <p className="my-1 mx-1 px-3 rounded-pill fontLust flex-nowrap" key={i} style={{ fontSize: "0.8rem", color: "#f4eee3", backgroundColor: "#886443" }}>{e.name}</p>
                             )
                         })}
                         </div></div>

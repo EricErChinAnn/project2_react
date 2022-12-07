@@ -45,6 +45,7 @@
     padding-right: 10px;
     color: #f4eee3;
     background: #4e4b47;
+    white-space: nowrap;
 }
 
 .eqAndStepsContainer {

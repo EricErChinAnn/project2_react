@@ -31,9 +31,15 @@ export default function SingleRecipe(props) {
     let displayFoodTags = () => {
         if (singleRecipe.foodTags[0]) {
             return (
-                <div className='my-1 mx-2'><p className='m-0 d-flex flex-row'><span className='bold'>Dietary Notes: </span>{singleRecipe.foodTags.map((each, i) => {
-                    return (<p className='mx-1 my-0 foodTags rounded-pill '>{each.name}</p>)
-                })}</p>
+                <div className='my-1 mx-2 d-flex flex-row'>
+                    <p className='m-0 d-flex flex-row' style={{ whiteSpace: 'nowrap' }}>
+                        <span className='bold'>Dietary Notes:</span>
+                    </p>
+                    <div className='m-0 d-flex flex-row flex-wrap justify-content-center'>
+                        {singleRecipe.foodTags.map((each, i) => {
+                            return (<p className='mx-1 my-0 mb-1 foodTags rounded-pill'>{each.name}</p>)
+                        })}
+                    </div>
                 </div>
             )
         }
@@ -54,29 +60,42 @@ export default function SingleRecipe(props) {
     let showReviews = () => {
         if (singleRecipe.reviewId[0]) {
             return (
-                <div className="fontLust">
-                    {singleRecipe.reviewId.map((e) => {
-                        return (
-                            <div className="card mb-3 mx-2">
-                                <div className="card-header fontCinB" style={{ fontSize: "18px" }}>
-                                    {e.title}{getStarReview(e.rating)}
+                <React.Fragment>
+                    <div className="fontLust d-flex flex-column">
+                        {singleRecipe.reviewId.map((e) => {
+                            return (
+                                <div className="card mb-3">
+                                    <div className="card-header fontCinB" style={{ fontSize: "18px" }}>
+                                        {e.title}<span style={{ fontSize: "12px" }}>{getStarReview(e.rating)}</span>
+                                    </div>
+                                    <div className="px-2 py-2">
+                                        <p className="m-0" style={{ fontSize: "14px" }}>{e.mainText}</p>
+                                    </div>
                                 </div>
-                                <div className="px-2 py-2">
-                                    <p className="m-0">{e.mainText}</p>
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
+                            )
+                        })}
+
+                        <div class="d-flex flex-column">
+                            <span class="rounded-top p-3" style={{ backgroundColor: "grey" }}>
+                                <input type="text"></input>
+                            </span>
+                            <textarea aria-label="With textarea"></textarea>
+                        </div>
+                    </div>
+                </React.Fragment>
             )
+        } else {
+            <React.Fragment>
+
+            </React.Fragment>
         }
     }
 
     let deleteRecipe = async (recipeId) => {
-        await axios.delete("http://localhost:3000/" + `deleteRecipe/${recipeId}`) 
+        await axios.delete("http://localhost:3000/" + `deleteRecipe/${recipeId}`)
 
         props.backToRecipe()
-        props.switchPage("home")        
+        props.switchPage("home")
 
         alert("Recipe is deleted")
     }
@@ -91,7 +110,7 @@ export default function SingleRecipe(props) {
                     ></i>
                     <i className="bi bi-trash3 rounded p-1 px-2 hoverDropOpacity"
                         style={{ backgroundColor: "rgba(139,0,0,0.7)", color: "white" }}
-                        onClick={()=>{deleteRecipe(props.singleRecipeId)}}    
+                        onClick={() => { deleteRecipe(props.singleRecipeId) }}
                     ></i>
                 </div>
             )
@@ -154,7 +173,9 @@ export default function SingleRecipe(props) {
                     </div>
                 </div>
             </div>
-            <div className='reviewContainer'>
+            <div className='m-3 rounded-2 pt-1 reviewContainer'>
+                <h1 className='text-center fontCinB mb-2' style={{ fontSize: "30px" }}>Reviews</h1>
+                <div className='drawALine mb-3'></div>
                 {showReviews()}
             </div>
         </React.Fragment>

@@ -229,6 +229,8 @@ export default class SearchRecipe extends React.Component {
                                             <div className="bigHover card mt-3 mx-2 cardDark"
                                                 style={{ textShadow: "2px 2px #00000" }} key={each._id}
                                                 onClick={() => {
+                                                    document.body.scrollTop = 0;
+                                                    document.documentElement.scrollTop = 0;
                                                     this.setState({
                                                         viewSingleRecipe: true,
                                                         singleRecipeId: each._id

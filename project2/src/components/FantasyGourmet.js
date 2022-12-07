@@ -206,12 +206,33 @@ export default class Main extends React.Component {
           <li className="nav-item dropdown">
             <div className='drawALine my-2'></div>
           </li>
-          <li className="nav-item dropdown">
-            <a className="nav-link" href="/#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" onClick={() => { this.switchPage("post") }}>Post New Recipe</a>
+          <li className="nav-item dropdown mt-2">
+            <a className="nav-link" href="/#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+            onClick={() => { this.switchPage("post") }}>Post New Recipe</a>
           </li>
         </React.Fragment>
       )
-    } else { return (null) }
+    } else { 
+      return (
+        <React.Fragment>
+          <li className="nav-item dropdown">
+            <div className='drawALine my-2'></div>
+          </li>
+          <li className="nav-item dropdown mt-2">
+            <span className="isDisabled" href="/#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+            >Post New Recipe <span>( Login Required )</span></span>
+          </li>
+        </React.Fragment>
+      ) 
+    }
+  }
+
+  loggedInOrNot = ()=>{
+    if(this.state.loggedIn){
+      return (<i class="bi bi-person-check"></i>)
+    } else {
+      return (<i className="bi bi-person"></i>)
+    }
   }
 
   render() {
@@ -223,7 +244,15 @@ export default class Main extends React.Component {
             <div className='justify-content-end d-flex flex-row align-items-center'>
               <div className='me-2 mt-2'>
                 <a className="navbar-brand fontCinB accountBtn" href="/#" style={{ fontSize: "23px" }}
-                  data-bs-toggle="modal" data-bs-target="#exampleModal" ><i className="bi bi-person"></i></a>
+                  data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                    
+                    
+
+
+
+                    {this.loggedInOrNot()}
+                    
+                    </a>
               </div>
               <div>
                 <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
@@ -240,7 +269,7 @@ export default class Main extends React.Component {
               <div className="offcanvas-body">
                 <ul className="navbar-nav justify-content-end flex-grow-1 pe-3 fontLust">
                   <li className="nav-item">
-                    <a className="nav-link active" aria-current="page" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" href="/#" onClick={() => { this.switchPage("home") }}>Home</a>
+                    <a className="nav-link" aria-current="page" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" href="/#" onClick={() => { this.switchPage("home") }}>Home</a>
                   </li>
                   <li className="nav-item">
                     <a className="nav-link" href="/#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" onClick={() => { this.switchPage("search") }}>Recipes</a>
