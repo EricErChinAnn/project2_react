@@ -4,7 +4,6 @@ import { getShowGameIcon } from "../../module/GetShowGame";
 
 export default function EachRecipe(props) {
     let starRating = getStar(props.recipe.reviewId)
-
     return (
         <React.Fragment>
             <div className="card-body m-0 mouseOverCursor">

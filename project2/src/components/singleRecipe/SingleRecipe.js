@@ -57,42 +57,8 @@ export default function SingleRecipe(props) {
         }
     }
 
-    let showReviews = () => {
-        if (singleRecipe.reviewId[0]) {
-            return (
-                <React.Fragment>
-                    <div className="fontLust d-flex flex-column">
-                        {singleRecipe.reviewId.map((e) => {
-                            return (
-                                <div className="card mb-3">
-                                    <div className="card-header fontCinB" style={{ fontSize: "18px" }}>
-                                        {e.title}<span style={{ fontSize: "12px" }}>{getStarReview(e.rating)}</span>
-                                    </div>
-                                    <div className="px-2 py-2">
-                                        <p className="m-0" style={{ fontSize: "14px" }}>{e.mainText}</p>
-                                    </div>
-                                </div>
-                            )
-                        })}
-
-                        <div class="d-flex flex-column">
-                            <span class="rounded-top p-3" style={{ backgroundColor: "grey" }}>
-                                <input type="text"></input>
-                            </span>
-                            <textarea aria-label="With textarea"></textarea>
-                        </div>
-                    </div>
-                </React.Fragment>
-            )
-        } else {
-            <React.Fragment>
-
-            </React.Fragment>
-        }
-    }
-
     let deleteRecipe = async (recipeId) => {
-        await axios.delete("http://localhost:3000/" + `deleteRecipe/${recipeId}`)
+        await axios.delete(`http://localhost:3000/deleteRecipe/${recipeId}`)
 
         props.backToRecipe()
         props.switchPage("home")
@@ -116,6 +82,232 @@ export default function SingleRecipe(props) {
             )
         }
     }
+
+
+
+
+    //This is for post reviews only
+    let deleteReview = async (reviewId) => {
+        await axios.delete(`http://localhost:3000/deleteReview/${reviewId}`)
+
+        props.backToRecipe()
+        props.switchPage("home")
+
+        alert("Review is deleted")
+    }
+
+    let editReviewSubmit = async () => {
+        console.log("helloTesteditreview")
+        console.log(props.reviewEditReviewId)
+        await axios.put(`http://localhost:3000/updateReview/${props.reviewEditReviewId}`, {
+            title: props.reviewEditTitle,
+            rating: props.reviewEditRating,
+            mainText: props.reviewEditMainText,
+            name: props.reviewEditName,
+            userId: props.reviewEditUserId
+        })  
+
+        document.querySelector("#closeModalReviewEdit").click()
+
+        props.backToRecipe()
+        props.switchPage("home")
+
+        alert("Review is edited")
+    }
+
+    let displayEditReviewList = () => {
+        return (
+            <div class="modal fade" id="exampleModalReviewEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                            <button type="button" class="btn-close" id="closeModalReviewEdit" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <React.Fragment>
+                                <div className="d-flex flex-column fontLust">
+                                    <div className="rounded p-3" style={{ backgroundColor: "lightgrey" }}>
+
+                                        {/* Review Post Title */}
+                                        <div className='mb-3'>
+                                            <div className="input-group">
+                                                <span className="input-group-text" id="basic-addon1">Title</span>
+                                                <input id="reviewTitlePost" type="text" className="form-control" placeholder="Enter a Title"
+                                                    value={props.reviewEditTitle} name="reviewEditTitle" onChange={props.updateForm}
+                                                    aria-label="Title" aria-describedby="basic-addon1" />
+                                            </div>
+                                            <p className="ms-2 pt-1" id="reviewTitleValidate" style={{ color: "red" }}>*Please enter a Title</p>
+                                        </div>
+
+                                        {/* Review Post Rating */}
+                                        <div className='d-flex flex-row mb-3'>
+                                            <span className="input-group-text" id="reviewRating">Rating</span>
+                                            <select className="form-select form-select-sm" id="reviewRatingSelect"
+                                                value={props.reviewEditRating} name="reviewEditRating" onChange={props.updateForm}
+                                                aria-label=".form-select-sm example">
+                                                <option selected value="5">⭐⭐⭐⭐⭐</option>
+                                                <option value="4">⭐⭐⭐⭐</option>
+                                                <option value="3">⭐⭐⭐</option>
+                                                <option value="2">⭐⭐</option>
+                                                <option value="1">⭐</option>
+                                            </select>
+                                        </div>
+
+                                        {/* Review Post Comments */}
+                                        <div className=" mb-2">
+                                            <div className='d-flex flex-column'>
+                                                <textarea id="commentReviewPost" className='rounded p-2' aria-label="With textarea"
+                                                    value={props.reviewEditMainText} name="reviewEditMainText" onChange={props.updateForm}
+                                                    placeholder="Comments">
+                                                </textarea>
+                                            </div>
+                                            <p className="ms-2 pt-1" id="reviewCommentsValidate" style={{ color: "red" }}>*Please enter your comments</p>
+                                        </div>
+
+                                        <div className="d-flex flex-column">
+                                            <button type="button" className="btn btn-primary m-2"
+                                                onClick={()=>{editReviewSubmit()}}
+                                            >Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </React.Fragment>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    let showReviews = () => {
+
+        if (singleRecipe.reviewId[0]) {
+            return (
+                <React.Fragment>
+                    <div className="fontLust d-flex flex-column">
+                        {singleRecipe.reviewId.map((e) => {
+                            console.log("Break")
+                            console.log(e)
+                            if (e.userId === props.editMatchUserId) {
+                                return (
+                                    <div className="card mb-3">
+                                        <div className="card-header fontCinB" style={{ fontSize: "18px" }}>
+                                            {e.title}<span style={{ fontSize: "12px" }}>{getStarReview(e.rating)}</span>
+                                        </div>
+                                        <div className="px-2 py-2">
+                                            <p className="m-0" style={{ fontSize: "14px" }}>{e.mainText}</p>
+                                        </div>
+                                        <div className='d-flex flex-column '>
+                                            <div class="input-group mt-2">
+                                                <button class="btn btn-outline-secondary flex-fill" type="button" id="button-addon1"
+                                                    data-bs-toggle="modal" data-bs-target="#exampleModalReviewEdit"
+                                                    style={{ backgroundColor: "rgba( 64.71%, 52.94%, 36.86% ,0.9)", color: "white" }}
+                                                    onClick={()=>{
+                                                        props.editReview(e.title,e.rating,e.mainText,e.name,e.userId,e._id)
+                                                    }}
+                                                ><i class="bi bi-pencil-square"></i></button>
+                                                <button class="btn btn-outline-secondary flex-fill" type="button" id="button-addon2"
+                                                    style={{ backgroundColor: "rgba(139,0,0,0.7)", color: "white" }}
+                                                    onClick={() => deleteReview(e._id)}
+                                                ><i class="bi bi-trash3"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                )
+                            } else {
+                                return (
+                                    <div className="card mb-3">
+                                        <div className="card-header fontCinB" style={{ fontSize: "18px" }}>
+                                            {e.title}<span style={{ fontSize: "12px" }}>{getStarReview(e.rating)}</span>
+                                        </div>
+                                        <div className="px-2 py-2">
+                                            <p className="m-0" style={{ fontSize: "14px" }}>{e.mainText}</p>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        })}
+                    </div>
+                    {displayEditReviewList()}
+                </React.Fragment>
+            )
+        }
+    }
+
+    let postReviews = () => {
+        console.log("Hello")
+        console.log(props)
+
+
+        if (props.loggedIn) {
+            return (
+                <React.Fragment>
+                    <div className="d-flex flex-column fontLust">
+                        <div className="rounded p-3" style={{ backgroundColor: "lightgrey" }}>
+
+
+                            {/* Review Post Title */}
+                            <div className='mb-3'>
+                                <div className="input-group">
+                                    <span className="input-group-text" id="basic-addon1">Title</span>
+                                    <input id="reviewTitlePost" type="text" className="form-control" placeholder="Enter a Title"
+                                        value={props.reviewPostingTitle} name="reviewPostingTitle" onChange={props.updateForm}
+                                        aria-label="Title" aria-describedby="basic-addon1" />
+                                </div>
+                                <p className="ms-2 pt-1" id="reviewTitleValidate" style={{ display: "none", color: "red" }}>*Please enter a Title</p>
+                            </div>
+
+
+                            {/* Review Post Rating */}
+                            <div className='d-flex flex-row mb-3'>
+                                <span className="input-group-text" id="reviewRating">Rating</span>
+                                <select className="form-select form-select-sm" id="reviewRatingSelect"
+                                    value={props.reviewPostingRating} name="reviewPostingRating" onChange={props.updateForm}
+                                    aria-label=".form-select-sm example">
+                                    <option selected value="5">⭐⭐⭐⭐⭐</option>
+                                    <option value="4">⭐⭐⭐⭐</option>
+                                    <option value="3">⭐⭐⭐</option>
+                                    <option value="2">⭐⭐</option>
+                                    <option value="1">⭐</option>
+                                </select>
+                            </div>
+
+                            {/* Review Post Comments */}
+                            <div className=" mb-2">
+                                <div className='d-flex flex-column'>
+                                    <textarea id="commentReviewPost" className='rounded p-2' aria-label="With textarea"
+                                        value={props.reviewPostingMainText} name="reviewPostingMainText" onChange={props.updateForm}
+                                        placeholder="Comments">
+                                    </textarea>
+                                </div>
+                                <p className="ms-2 pt-1" id="reviewCommentsValidate" style={{ display: "none", color: "red" }}>*Please enter your comments</p>
+                            </div>
+
+                            <div className="d-flex flex-column">
+                                <button type="button" className="btn btn-primary m-2"
+                                    onClick={props.postReview}
+                                >Post</button>
+                            </div>
+                        </div>
+                    </div>
+                </React.Fragment>
+            )
+        } else {
+            return (
+                <React.Fragment>
+                    <div className="d-flex flex-column rounded p-3" style={{ backgroundColor: "lightgrey" }}>
+                        <button type="button" className="fontCinB btn btn-light"
+                            onClick={() => { document.getElementById('loginModalToggleNow').click() }}
+                        >Login to post a review</button>
+                    </div>
+                </React.Fragment>
+            )
+        }
+    }
+
+
 
     return (
         <React.Fragment>
@@ -177,6 +369,7 @@ export default function SingleRecipe(props) {
                 <h1 className='text-center fontCinB mb-2' style={{ fontSize: "30px" }}>Reviews</h1>
                 <div className='drawALine mb-3'></div>
                 {showReviews()}
+                {postReviews()}
             </div>
         </React.Fragment>
     )

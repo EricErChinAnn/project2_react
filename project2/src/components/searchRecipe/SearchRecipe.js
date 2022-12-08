@@ -25,6 +25,20 @@ export default class SearchRecipe extends React.Component {
         reqIngredients: [],
         estCostMin: 1.00,
         estCostMax: 100.00,
+
+        //For posting reviews
+        reviewPostingUserId: this.props.reviewPostingUserId,
+        reviewPostingTitle: "",
+        reviewPostingRating: "5",
+        reviewPostingMainText: "",
+
+        //for edit reviews
+        reviewEditReviewId:"",
+        reviewEditTitle: "",
+        reviewEditRating: "",
+        reviewEditMainText: "",
+        reviewEditName: "",
+        reviewEditUserId: ""
     }
 
     BASE_API_URL = "http://localhost:3000/"
@@ -42,10 +56,10 @@ export default class SearchRecipe extends React.Component {
         if (userData.data.length === 1) {
             this.setState({
                 editMatchUserId: userData.data[0]._id,
+                reviewPostingUserId: userData.data[0]._id
             })
         }
     }
-
 
     backToRecipe = () => {
         this.setState({
@@ -161,8 +175,49 @@ export default class SearchRecipe extends React.Component {
         })
     }
 
+    postReview = async () => {
+        if (
+            this.state.reviewPostingUserId &&
+            this.state.reviewPostingTitle &&
+            this.state.reviewPostingRating &&
+            this.state.reviewPostingMainText
+        ) {
+            document.querySelector("#reviewCommentsValidate").style.display = "none"
+            document.querySelector("#reviewTitleValidate").style.display = "none"
+
+            await axios.post(this.BASE_API_URL + `${this.state.singleRecipeId}/addReview`, {
+                user_id: this.state.reviewPostingUserId,
+                title: this.state.reviewPostingTitle,
+                rating: this.state.reviewPostingRating,
+                mainText: this.state.reviewPostingMainText
+            });
+
+            alert("Review Posted")
+
+            this.props.switchPage("home")
+        } else {
+            if (this.state.reviewPostingTitle) { document.querySelector("#reviewTitleValidate").style.display = "none" }
+            else { document.querySelector("#reviewTitleValidate").style.display = "block" }
+
+            if (this.state.reviewPostingMainText) { document.querySelector("#reviewCommentsValidate").style.display = "none" }
+            else { document.querySelector("#reviewCommentsValidate").style.display = "block" }
+        }
+    }
+
+    editReview = (a,b,c,d,e,f) => {
+        this.setState({
+            reviewEditTitle: a,
+            reviewEditRating: b,
+            reviewEditMainText: c,
+            reviewEditName: d,
+            reviewEditUserId: e,
+            reviewEditReviewId: f,
+        })
+    }
 
     render() {
+        console.log(this.props)
+
         if (this.state.editSingleRecipe) {
             return <EditSingleRecipe
                 editSingleRecipe={this.state.editSingleRecipe}
@@ -173,7 +228,7 @@ export default class SearchRecipe extends React.Component {
                 editMatchUserId={this.state.editMatchUserId}
                 loginEmail={this.props.loginEmail}
                 loginKey={this.props.loginKey}
-                
+
                 data={this.state.data}
                 backToRecipe={this.backToRecipe}
                 backToSingleRecipe={this.backToSingleRecipe}
@@ -184,6 +239,7 @@ export default class SearchRecipe extends React.Component {
         else {
             if (this.state.viewSingleRecipe) {
                 return <SingleRecipe
+
                     editSingleRecipe={this.state.editSingleRecipe}
                     viewSingleRecipe={this.state.viewSingleRecipe}
                     data={this.state.data}
@@ -195,6 +251,22 @@ export default class SearchRecipe extends React.Component {
                     loginKey={this.props.loginKey}
                     goToEditRecipe={this.goToEditRecipe}
                     switchPage={this.props.switchPage}
+                    loggedIn={this.props.loggedIn}
+
+                    reviewPostingUserId={this.state.reviewPostingUserId}
+                    reviewPostingTitle={this.state.reviewPostingTitle}
+                    reviewPostingRating={this.state.reviewPostingRating}
+                    reviewPostingMainText={this.state.reviewPostingMainText}
+                    postReview={this.postReview}
+                    updateForm={this.updateForm}
+
+                    reviewEditTitle={this.state.reviewEditTitle}
+                    reviewEditRating={this.state.reviewEditRating}
+                    reviewEditMainText={this.state.reviewEditMainText}
+                    reviewEditName={this.state.reviewEditName}
+                    reviewEditUserId={this.state.reviewEditUserId}
+                    reviewEditReviewId = {this.state.reviewEditReviewId}
+                    editReview={this.editReview}
                 />
             } else {
                 if (this.state.data.length > 0) {

@@ -82,3 +82,18 @@
     opacity: 0.5;
     cursor: pointer;
 }
+
+#reviewRating{
+    border-radius: 0%;
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
+}
+
+#reviewRatingSelect{
+    border-top-left-radius: 0px !important;
+    border-bottom-left-radius: 0px !important;
+}
+
+#commentReviewPost{
+    border-bottom-right-radius: 0px !important;
+}

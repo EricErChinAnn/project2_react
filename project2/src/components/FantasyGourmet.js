@@ -39,6 +39,7 @@ export default class Main extends React.Component {
         loginEmail={this.state.loginEmail}
         loginKey={this.state.loginKey}
         switchPage={this.switchPage}
+        loggedIn={this.state.loggedIn}
       />
     }
     else if (this.state.page === "post") {
@@ -229,7 +230,7 @@ export default class Main extends React.Component {
 
   loggedInOrNot = ()=>{
     if(this.state.loggedIn){
-      return (<i class="bi bi-person-check"></i>)
+      return (<i className="bi bi-person-check"></i>)
     } else {
       return (<i className="bi bi-person"></i>)
     }
@@ -243,7 +244,7 @@ export default class Main extends React.Component {
             <a className="navbar-brand fontCinB" href="/#" style={{ fontSize: "23px" }} onClick={() => { this.switchPage("home") }}>Fantasy Gourmet</a>
             <div className='justify-content-end d-flex flex-row align-items-center'>
               <div className='me-2 mt-2'>
-                <a className="navbar-brand fontCinB accountBtn" href="/#" style={{ fontSize: "23px" }}
+                <a className="navbar-brand fontCinB accountBtn" id='loginModalToggleNow' href="/#" style={{ fontSize: "23px" }}
                   data-bs-toggle="modal" data-bs-target="#exampleModal" >
                     
                     
