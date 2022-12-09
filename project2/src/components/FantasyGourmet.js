@@ -1,5 +1,7 @@
 import React from 'react'
 import axios from "axios"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -11,7 +13,10 @@ import SearchRecipe from './searchRecipe/SearchRecipe';
 import Login from "./account/Login";
 import PostRecipe from "./postRecipe/PostRecipe"
 
+
+
 export default class Main extends React.Component {
+
   state = {
     page: "home",
 
@@ -30,7 +35,7 @@ export default class Main extends React.Component {
     profilePicNewAcc: "",
   }
 
-  BASE_API_URL = "http://localhost:3000/"
+  BASE_API_URL = "https://ericerchinann-fantasygourmet-3.onrender.com/"
 
   renderPage = () => {
     if (this.state.page === "home") { return <LandingPage page={this.state.page} switchPage={this.switchPage} /> }
@@ -69,18 +74,34 @@ export default class Main extends React.Component {
 
   login = async () => {
     if (this.state.loginEmail && this.state.loginPassword) {
-      document.querySelector("#loginModalToggle").dataBsDismiss="modal"
-      document.querySelector("#loginValidate").style.display="none"
+      document.querySelector("#loginModalToggle").dataBsDismiss = "modal"
+      document.querySelector("#loginValidate").style.display = "none"
 
       const login = await axios.post(this.BASE_API_URL + "login", {
         loginEmail: this.state.loginEmail,
         loginPassword: this.state.loginPassword
       })
-      
+
       this.setState({
         loginKey: login.data,
         page: "home"
       })
+
+      const notifyLoginSucc = () => toast('🥂 Welcome Back Chef', {
+        containerId: 'notifyLoginSucc',
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        theme: "dark",
+        progress: undefined,
+      });
+
+      notifyLoginSucc()
+
+
       setTimeout(
         () => {
           if (this.state.loginKey.accessToken) {
@@ -105,7 +126,7 @@ export default class Main extends React.Component {
       //   )
       // }
     } else {
-      document.querySelector("#loginValidate").style.display="block"
+      document.querySelector("#loginValidate").style.display = "block"
     }
   }
 
@@ -150,37 +171,60 @@ export default class Main extends React.Component {
         profilePicNewAcc: this.state.profilePicNewAcc
       }
       )
+
+      const notifyCreateAcc = () => toast.success('Account created', {
+        containerId: 'notifyCreateAcc',
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      notifyCreateAcc();
+
+
       return (this.setState({
         createdAcc: true,
         loginEmail: this.state.emailNewAcc,
         loginPassword: this.state.passwordNewAcc,
         loginName: this.state.nameNewAcc
       }))
+
+
     } else {
-      if(!this.state.nameNewAcc)
-      {document.querySelector("#nameValidateCreate").style.display="block";}
-      else
-      {document.querySelector("#nameValidateCreate").style.display="none";}
+      if (!this.state.nameNewAcc) { document.querySelector("#nameValidateCreate").style.display = "block"; }
+      else { document.querySelector("#nameValidateCreate").style.display = "none"; }
 
-      if(!this.state.emailNewAcc)
-      {document.querySelector("#emailValidateCreate").style.display="block";}
-      else
-      {document.querySelector("#emailValidateCreate").style.display="none";}
+      if (!this.state.emailNewAcc) { document.querySelector("#emailValidateCreate").style.display = "block"; }
+      else { document.querySelector("#emailValidateCreate").style.display = "none"; }
 
-      if(!this.state.dobNewAcc)
-      {document.querySelector("#dobValidateCreate").style.display="block";}
-      else
-      {document.querySelector("#dobValidateCreate").style.display="none";}
-      
-      if(!this.state.passwordNewAcc || this.state.passwordNewAcc.length<8)
-      {document.querySelector("#passwordValidateCreate").style.display="block";}
-      else
-      {document.querySelector("#passwordValidateCreate").style.display="none";}
+      if (!this.state.dobNewAcc) { document.querySelector("#dobValidateCreate").style.display = "block"; }
+      else { document.querySelector("#dobValidateCreate").style.display = "none"; }
+
+      if (!this.state.passwordNewAcc || this.state.passwordNewAcc.length < 8) { document.querySelector("#passwordValidateCreate").style.display = "block"; }
+      else { document.querySelector("#passwordValidateCreate").style.display = "none"; }
 
     }
   }
 
   logout = () => {
+    const notifylogout = () => toast('😄 See you again soon', {
+      containerId: 'logoutNotify',
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      theme: "dark",
+    });
+
+    notifylogout()
+
     this.setState({
       page: "home",
 
@@ -209,11 +253,11 @@ export default class Main extends React.Component {
           </li>
           <li className="nav-item dropdown mt-2">
             <a className="nav-link" href="/#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
-            onClick={() => { this.switchPage("post") }}>Post New Recipe</a>
+              onClick={() => { this.switchPage("post") }}>Post New Recipe</a>
           </li>
         </React.Fragment>
       )
-    } else { 
+    } else {
       return (
         <React.Fragment>
           <li className="nav-item dropdown">
@@ -224,12 +268,12 @@ export default class Main extends React.Component {
             >Post New Recipe <span>( Login Required )</span></span>
           </li>
         </React.Fragment>
-      ) 
+      )
     }
   }
 
-  loggedInOrNot = ()=>{
-    if(this.state.loggedIn){
+  loggedInOrNot = () => {
+    if (this.state.loggedIn) {
       return (<i className="bi bi-person-check"></i>)
     } else {
       return (<i className="bi bi-person"></i>)
@@ -237,8 +281,139 @@ export default class Main extends React.Component {
   }
 
   render() {
+
     return (
       <React.Fragment>
+
+        {/* For log out */}
+        <ToastContainer
+          enableMultiContainer
+          containerId={'logoutNotify'}
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          limit={1}
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+        />
+
+        {/* For create account` */}
+        <ToastContainer
+          enableMultiContainer
+          containerId={'notifyCreateAcc'}
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+
+        {/* For Login */}
+        <ToastContainer
+          enableMultiContainer
+          containerId={'notifyLoginSucc'}
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+
+        {/* For Post Reviews */}
+        <ToastContainer
+          enableMultiContainer
+          containerId={'postreviewNotify'}
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+        />
+
+        {/* For Edit Reviews */}
+        <ToastContainer
+          enableMultiContainer
+          containerId={'posteditNotify'}
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+        />
+
+        {/* For Delete Reviews */}
+        <ToastContainer
+          enableMultiContainer
+          containerId={'postdeleteNotify'}
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+        />
+
+        {/* For Delete Recipe */}
+        <ToastContainer
+          enableMultiContainer
+          containerId={'recipedeleteNotify'}
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+        />
+
+        {/* For Edit Recipe */}
+        <ToastContainer
+          enableMultiContainer
+          containerId={'recipeeditdoneNotify'}
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+        />
+
         <nav className="navbar navbar-dark bg-dark fixed-top">
           <div className="container-fluid">
             <a className="navbar-brand fontCinB" href="/#" style={{ fontSize: "23px" }} onClick={() => { this.switchPage("home") }}>Fantasy Gourmet</a>
@@ -246,14 +421,10 @@ export default class Main extends React.Component {
               <div className='me-2 mt-2'>
                 <a className="navbar-brand fontCinB accountBtn" id='loginModalToggleNow' href="/#" style={{ fontSize: "23px" }}
                   data-bs-toggle="modal" data-bs-target="#exampleModal" >
-                    
-                    
 
+                  {this.loggedInOrNot()}
 
-
-                    {this.loggedInOrNot()}
-                    
-                    </a>
+                </a>
               </div>
               <div>
                 <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">

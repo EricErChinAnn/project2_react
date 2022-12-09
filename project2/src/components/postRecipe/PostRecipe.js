@@ -3,6 +3,8 @@ import axios from "axios"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min.js"
 import "./PostRecipe.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class PostRecipe extends React.Component {
     state = {
@@ -25,7 +27,7 @@ export default class PostRecipe extends React.Component {
         showGameId: "637c8efb7ee2af299ef3dd49"
     }
 
-    BASE_API_URL = "http://localhost:3000/"
+    BASE_API_URL = "https://ericerchinann-fantasygourmet-3.onrender.com/"
 
     async componentDidMount() {
         // Load all resources in parallel
@@ -92,9 +94,21 @@ export default class PostRecipe extends React.Component {
             document.querySelector("#cookingDurationValidate").style.display = "none"
             document.querySelector("#cookingToolsValidate").style.display = "none"
 
-            return (
-                alert("New Recipe Created")
-            )
+            const notifyRecipeFormDone = () => toast.success('🥡 Recipe have been uploaded', {
+                containerId: 'recipeFormDoneNotify',
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                theme: "dark",
+            });
+
+            notifyRecipeFormDone()
+
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
         }
         else {
             if (!this.state.name) { document.querySelector("#nameValidate").style.display = "block" }
@@ -118,11 +132,43 @@ export default class PostRecipe extends React.Component {
             if (this.state.steps[0] === undefined || this.state.steps.includes("")) { document.querySelector("#cookingToolsValidate").style.display = "block" }
             else { document.querySelector("#cookingToolsValidate").style.display = "none" }
 
-            return (alert("Please enter all required fields"))
+            const notifyRecipeFormError = () => toast.error('🦞 Please enter all required fields', {
+                containerId: 'recipeFormErrorFormNotify',
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                theme: "dark",
+            });
+
+            notifyRecipeFormError()
+
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+
         }
     }
 
     resetCreateForm = () => {
+
+        const notifyResetRecipeForm = () => toast('🧊 Form reset completed', {
+            containerId: 'resetRecipeFormNotify',
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            theme: "dark",
+        });
+
+        notifyResetRecipeForm()
+
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+
         return (
             this, this.setState({
                 name: "",
@@ -329,15 +375,66 @@ export default class PostRecipe extends React.Component {
     render() {
         return (
             <React.Fragment>
+
+                {/* For Reset Recipe */}
+                <ToastContainer
+                    enableMultiContainer
+                    containerId={'resetRecipeFormNotify'}
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss={false}
+                    draggable
+                    pauseOnHover={false}
+                    theme="dark"
+                />
+
+                {/* For Recipe Error */}
+                <ToastContainer
+                    enableMultiContainer
+                    containerId={'recipeFormErrorFormNotify'}
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss={false}
+                    draggable
+                    pauseOnHover={false}
+                    theme="dark"
+                />
+
+                {/* For Recipe Done */}
+                <ToastContainer
+                    enableMultiContainer
+                    containerId={'recipeFormDoneNotify'}
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss={false}
+                    draggable
+                    pauseOnHover={false}
+                    theme="dark"
+                />
+
+
+
                 <div className="p-4 m-3"></div>
                 <div id='formCreateR' className='fontLust d-flex flex-column justify-content-center m-3 p-4 rounded'>
-                <i className="bi bi-caret-left fontCinN mouseOverCursor hoverDropOpacity mb-3"
+                    <i className="bi bi-caret-left fontCinN mouseOverCursor hoverDropOpacity mb-3"
                         onClick={() => { this.props.switchPage("home") }}
                         style={{ fontSize: "20px" }}
                     >Back</i>
                     <div className='justify-content-center d-flex fontCinB '><h1>Create New Recipe</h1></div>
                     <div className='drawALine mb-3'></div>
-                    
+
                     {/* Name */}
                     <div className="mb-3">
                         <div className="input-group">

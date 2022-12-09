@@ -7,6 +7,8 @@ import EachRecipe from "./child/EachRecipe"
 import SingleRecipe from "../singleRecipe/SingleRecipe"
 import SearchPopup from "./SearchPopup"
 import EditSingleRecipe from "../singleRecipe/child/EditSingleRecipe"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class SearchRecipe extends React.Component {
     state = {
@@ -33,7 +35,7 @@ export default class SearchRecipe extends React.Component {
         reviewPostingMainText: "",
 
         //for edit reviews
-        reviewEditReviewId:"",
+        reviewEditReviewId: "",
         reviewEditTitle: "",
         reviewEditRating: "",
         reviewEditMainText: "",
@@ -41,7 +43,7 @@ export default class SearchRecipe extends React.Component {
         reviewEditUserId: ""
     }
 
-    BASE_API_URL = "http://localhost:3000/"
+    BASE_API_URL = "https://ericerchinann-fantasygourmet-3.onrender.com/"
 
     async componentDidMount() {
         const response = await axios.get(this.BASE_API_URL + "recipe");
@@ -192,7 +194,18 @@ export default class SearchRecipe extends React.Component {
                 mainText: this.state.reviewPostingMainText
             });
 
-            alert("Review Posted")
+            const notifypostreview = () => toast.success('😄 Thank you for your review', {
+                containerId: 'postreviewNotify',
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                theme: "dark",
+            });
+
+            notifypostreview()
 
             this.props.switchPage("home")
         } else {
@@ -204,7 +217,7 @@ export default class SearchRecipe extends React.Component {
         }
     }
 
-    editReview = (a,b,c,d,e,f) => {
+    editReview = (a, b, c, d, e, f) => {
         this.setState({
             reviewEditTitle: a,
             reviewEditRating: b,
@@ -216,8 +229,6 @@ export default class SearchRecipe extends React.Component {
     }
 
     render() {
-        console.log(this.props)
-
         if (this.state.editSingleRecipe) {
             return <EditSingleRecipe
                 editSingleRecipe={this.state.editSingleRecipe}
@@ -238,36 +249,39 @@ export default class SearchRecipe extends React.Component {
         }
         else {
             if (this.state.viewSingleRecipe) {
-                return <SingleRecipe
+                return (
+                    <React.Fragment>
+                        <SingleRecipe
 
-                    editSingleRecipe={this.state.editSingleRecipe}
-                    viewSingleRecipe={this.state.viewSingleRecipe}
-                    data={this.state.data}
-                    singleRecipeId={this.state.singleRecipeId}
-                    backToRecipe={this.backToRecipe}
-                    backToSingleRecipe={this.backToSingleRecipe}
-                    editMatchUserId={this.state.editMatchUserId}
-                    loginEmail={this.props.loginEmail}
-                    loginKey={this.props.loginKey}
-                    goToEditRecipe={this.goToEditRecipe}
-                    switchPage={this.props.switchPage}
-                    loggedIn={this.props.loggedIn}
+                            editSingleRecipe={this.state.editSingleRecipe}
+                            viewSingleRecipe={this.state.viewSingleRecipe}
+                            data={this.state.data}
+                            singleRecipeId={this.state.singleRecipeId}
+                            backToRecipe={this.backToRecipe}
+                            backToSingleRecipe={this.backToSingleRecipe}
+                            editMatchUserId={this.state.editMatchUserId}
+                            loginEmail={this.props.loginEmail}
+                            loginKey={this.props.loginKey}
+                            goToEditRecipe={this.goToEditRecipe}
+                            switchPage={this.props.switchPage}
+                            loggedIn={this.props.loggedIn}
 
-                    reviewPostingUserId={this.state.reviewPostingUserId}
-                    reviewPostingTitle={this.state.reviewPostingTitle}
-                    reviewPostingRating={this.state.reviewPostingRating}
-                    reviewPostingMainText={this.state.reviewPostingMainText}
-                    postReview={this.postReview}
-                    updateForm={this.updateForm}
+                            reviewPostingUserId={this.state.reviewPostingUserId}
+                            reviewPostingTitle={this.state.reviewPostingTitle}
+                            reviewPostingRating={this.state.reviewPostingRating}
+                            reviewPostingMainText={this.state.reviewPostingMainText}
+                            postReview={this.postReview}
+                            updateForm={this.updateForm}
 
-                    reviewEditTitle={this.state.reviewEditTitle}
-                    reviewEditRating={this.state.reviewEditRating}
-                    reviewEditMainText={this.state.reviewEditMainText}
-                    reviewEditName={this.state.reviewEditName}
-                    reviewEditUserId={this.state.reviewEditUserId}
-                    reviewEditReviewId = {this.state.reviewEditReviewId}
-                    editReview={this.editReview}
-                />
+                            reviewEditTitle={this.state.reviewEditTitle}
+                            reviewEditRating={this.state.reviewEditRating}
+                            reviewEditMainText={this.state.reviewEditMainText}
+                            reviewEditName={this.state.reviewEditName}
+                            reviewEditUserId={this.state.reviewEditUserId}
+                            reviewEditReviewId={this.state.reviewEditReviewId}
+                            editReview={this.editReview}
+                        />
+                    </React.Fragment>)
             } else {
                 if (this.state.data.length > 0) {
                     return (

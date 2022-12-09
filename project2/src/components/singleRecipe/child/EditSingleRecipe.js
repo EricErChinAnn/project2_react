@@ -3,6 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle.min.js"
 import axios from 'axios'
 import "./EditSingleRecipe.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class SearchRecipe extends React.Component {
     state = {
@@ -28,7 +30,7 @@ export default class SearchRecipe extends React.Component {
         userIdEdit: [],
     }
 
-    BASE_API_URL = "http://localhost:3000/"
+    BASE_API_URL = "https://ericerchinann-fantasygourmet-3.onrender.com/"
 
     async componentDidMount() {
         const response = (await axios.get(this.BASE_API_URL + "purerecipe",
@@ -78,12 +80,12 @@ export default class SearchRecipe extends React.Component {
             return null
         }
     }
-    arrayValidate = (v,text)=>{
-        if(!((v.filter(n=>n)).length>0)){
-            return(
+    arrayValidate = (v, text) => {
+        if (!((v.filter(n => n)).length > 0)) {
+            return (
                 <div className='m-0' style={{ color: "red" }}>
-                {text}
-            </div>
+                    {text}
+                </div>
             )
         }
     }
@@ -217,7 +219,7 @@ export default class SearchRecipe extends React.Component {
 
 
 
-    resetEdit = async()=>{
+    resetEdit = async () => {
         const response = (await axios.get(this.BASE_API_URL + "purerecipe",
             { params: { "_id": this.props.singleRecipeId } })).data[0];
         const showGameData = await axios.get(this.BASE_API_URL + 'showGame');
@@ -246,45 +248,90 @@ export default class SearchRecipe extends React.Component {
             reviewIdEdit: response.reviewId,
             userIdEdit: response.userId
         })
+
+        const notifypostrecipereset = () => toast.info('🥃 All fields have been reseted', {
+            position: "top-center",
+            containerId: 'reciperesetNotify',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+        });;
+
+
+        notifypostrecipereset()
+
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
     }
 
 
     callAPIWithEdit = async () => {
-        if(this.state.nameEdit
-            && this.state.estCostEdit 
+        if (this.state.nameEdit
+            && this.state.estCostEdit
             && this.state.pictureEdit
             && this.state.durationCookingEdit
-            && (this.state.ingredientsReqEdit.filter(n=>n)).length>0
-            && (this.state.cookingToolEdit.filter(n=>n)).length>0
-            && (this.state.stepsEdit.filter(n=>n)).length>0
-        ){
-            await axios.put(this.BASE_API_URL + "updateRecipe/"+ this.props.singleRecipeId , {
-                name:this.state.nameEdit,
-                category:this.state.categoryEdit,
-                estCost:this.state.estCostEdit,
-                reqIngredients:this.state.ingredientsReqEdit,
-                optionalIngredients:this.state.ingredientsOptionalEdit,
-                prepSteps:this.state.prepStepsEdit,
-                steps:this.state.stepsEdit,
-                picture:this.state.pictureEdit,
-                prepDuration:this.state.durationPrepEdit,
-                cookingDuration:this.state.durationCookingEdit,
-                cookingTools:this.state.cookingToolEdit,
-                user_id:this.state.userIdEdit,
-                foodTags:this.state.foodTagsEdit,
-                reviewId:this.state.reviewIdEdit,
-                showGameId:this.state.showGameIdEdit,
+            && (this.state.ingredientsReqEdit.filter(n => n)).length > 0
+            && (this.state.cookingToolEdit.filter(n => n)).length > 0
+            && (this.state.stepsEdit.filter(n => n)).length > 0
+        ) {
+            await axios.put(this.BASE_API_URL + "updateRecipe/" + this.props.singleRecipeId, {
+                name: this.state.nameEdit,
+                category: this.state.categoryEdit,
+                estCost: this.state.estCostEdit,
+                reqIngredients: this.state.ingredientsReqEdit,
+                optionalIngredients: this.state.ingredientsOptionalEdit,
+                prepSteps: this.state.prepStepsEdit,
+                steps: this.state.stepsEdit,
+                picture: this.state.pictureEdit,
+                prepDuration: this.state.durationPrepEdit,
+                cookingDuration: this.state.durationCookingEdit,
+                cookingTools: this.state.cookingToolEdit,
+                user_id: this.state.userIdEdit,
+                foodTags: this.state.foodTagsEdit,
+                reviewId: this.state.reviewIdEdit,
+                showGameId: this.state.showGameIdEdit,
             })
 
             this.props.backToSingleRecipe()
             this.props.backToRecipe()
             this.props.switchPage("home")
 
-            alert("Recipe have been edited")
+            const notifypostrecipeeditdone = () => toast.success('🍽 Recipe have been updated', {
+                position: "top-center",
+                containerId: 'recipeeditdoneNotify',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
 
+            notifypostrecipeeditdone()
 
         } else {
-            alert("Please fill in the required information")
+            const notifypostrecipeerror = () => toast.error('🧂 Please fill in the required information', {
+                position: "top-center",
+                containerId: 'recipedeleteNotify',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });;
+
+
+            notifypostrecipeerror()
+
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
         }
     }
 
@@ -292,11 +339,44 @@ export default class SearchRecipe extends React.Component {
     render() {
         return (
             <React.Fragment>
+
+                {/* For Edit Recipe Error*/}
+                <ToastContainer
+                    enableMultiContainer
+                    containerId={'recipedeleteNotify'}
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss={false}
+                    draggable
+                    pauseOnHover={false}
+                    theme="dark"
+                />
+
+                {/* For Edit Recipe Reset*/}
+                <ToastContainer
+                    enableMultiContainer
+                    containerId={'reciperesetNotify'}
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss={false}
+                    draggable
+                    pauseOnHover={false}
+                    theme="dark"
+                />
+
                 <div className="p-4 m-2"></div>
 
                 <div id='formEditR' className='fontLust d-flex flex-column justify-content-center m-3 p-4 rounded'>
 
-                <i className="bi bi-caret-left fontCinN mouseOverCursor hoverDropOpacity mb-3"
+                    <i className="bi bi-caret-left fontCinN mouseOverCursor hoverDropOpacity mb-3"
                         onClick={this.props.backToSingleRecipe}
                         style={{ fontSize: "20px" }}
                     >Back</i>
@@ -307,7 +387,7 @@ export default class SearchRecipe extends React.Component {
                     {/* Edit Name */}
                     <div className="mb-3">
                         <div className="input-group">
-                            <span class="input-group-text" id="basic-addon1">Name</span>
+                            <span className="input-group-text" id="basic-addon1">Name</span>
                             <input type="text" className="form-control" placeholder="Name of Recipe"
                                 aria-label="Name of Recipe" aria-describedby="basic-addon1"
                                 value={this.state.nameEdit} name="nameEdit" onChange={this.updateFormEdit} />
@@ -352,7 +432,7 @@ export default class SearchRecipe extends React.Component {
                     {/* Picture */}
                     <div className=' mb-3'>
                         <div className="input-group">
-                            <span class="input-group-text" id="basic-addon1">Pic URL</span>
+                            <span claclassNamess="input-group-text" id="basic-addon1">Pic URL</span>
                             <input type="text" className="form-control" placeholder="URL of Picture"
                                 aria-label="URL of Picture" aria-describedby="basic-addon1"
                                 value={this.state.pictureEdit} name="pictureEdit" onChange={this.updateFormEdit} />
@@ -362,7 +442,7 @@ export default class SearchRecipe extends React.Component {
 
                     {/* PrepDuration: */}
                     <div className="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Prep Duration</span>
+                        <span className="input-group-text" id="basic-addon1">Prep Duration</span>
                         <input type="text" className="form-control" placeholder="Preparation Duration"
                             aria-label="Preparation Duration" aria-describedby="basic-addon1"
                             value={this.state.durationPrepEdit} name="durationPrepEdit" onChange={this.updateFormEdit} />
@@ -371,7 +451,7 @@ export default class SearchRecipe extends React.Component {
                     {/* CookingDuration */}
                     <div className='mb-3'>
                         <div className="input-group">
-                            <span class="input-group-text" id="basic-addon1">Cooking Duration</span>
+                            <span className="input-group-text" id="basic-addon1">Cooking Duration</span>
                             <input type="text" className="form-control" placeholder="Cooking Duration"
                                 aria-label="Cooking Duration" aria-describedby="basic-addon1"
                                 value={this.state.durationCookingEdit} name="durationCookingEdit" onChange={this.updateFormEdit} />
@@ -409,14 +489,14 @@ export default class SearchRecipe extends React.Component {
                         </div>
                         {this.state.ingredientsReqEdit.map((e, i) => {
                             return (
-                                <div class="input-group mb-2" key={i}>
-                                    <span class="input-group-text"><i class="bi bi-caret-right-fill"></i></span>
+                                <div className="input-group mb-2" key={i}>
+                                    <span className="input-group-text"><i className="bi bi-caret-right-fill"></i></span>
                                     <input type="text" className="form-control" placeholder="Write 1 ingredient only"
                                         aria-label={i} value={e} aria-describedby="basic-addon1" onChange={this.updateFormArrayReqIng} />
                                 </div>
                             )
                         })}
-                        {this.arrayValidate(this.state.ingredientsReqEdit,"*Please enter an Ingredient")}
+                        {this.arrayValidate(this.state.ingredientsReqEdit, "*Please enter an Ingredient")}
                     </div>
 
                     {/* Optional Ingredients */}
@@ -429,8 +509,8 @@ export default class SearchRecipe extends React.Component {
                         </div>
                         {this.state.ingredientsOptionalEdit.map((e, i) => {
                             return (
-                                <div class="input-group mb-2" key={i}>
-                                    <span class="input-group-text"><i class="bi bi-caret-right-fill"></i></span>
+                                <div className="input-group mb-2" key={i}>
+                                    <span className="input-group-text"><i className="bi bi-caret-right-fill"></i></span>
                                     <input type="text" className="form-control" placeholder="Write 1 ingredient only"
                                         aria-label={i} value={e} aria-describedby="basic-addon1" onChange={this.updateFormArrayOpIng} />
                                 </div>
@@ -448,14 +528,14 @@ export default class SearchRecipe extends React.Component {
                         </div>
                         {this.state.cookingToolEdit.map((e, i) => {
                             return (
-                                <div class="input-group mb-2" key={i}>
-                                    <span class="input-group-text"><i class="bi bi-caret-right-fill"></i></span>
+                                <div className="input-group mb-2" key={i}>
+                                    <span className="input-group-text"><i className="bi bi-caret-right-fill"></i></span>
                                     <input type="text" className="form-control" placeholder="Write 1 ingredient only"
                                         aria-label={i} value={e} aria-describedby="basic-addon1" onChange={this.updateFormCookingTool} />
                                 </div>
                             )
                         })}
-                        {this.arrayValidate(this.state.cookingToolEdit,"*Please enter cooking tools")}
+                        {this.arrayValidate(this.state.cookingToolEdit, "*Please enter cooking tools")}
                     </div>
 
                     {/* Prep Step */}
@@ -468,7 +548,7 @@ export default class SearchRecipe extends React.Component {
                         {this.state.prepStepsEdit.map((e, i) => {
                             return (
                                 <div className="input-group mb-3" key={i}>
-                                    <span className="input-group-text"><i class="bi bi-caret-right-fill"></i></span>
+                                    <span className="input-group-text"><i className="bi bi-caret-right-fill"></i></span>
                                     <textarea className="form-control" placeholder="Write a step at a time" aria-label={i}
                                         value={e} onChange={this.updateFormArrayPrepSteps}></textarea>
                                 </div>
@@ -486,13 +566,13 @@ export default class SearchRecipe extends React.Component {
                         {this.state.stepsEdit.map((e, i) => {
                             return (
                                 <div className="input-group mb-3" key={i}>
-                                    <span className="input-group-text"><i class="bi bi-caret-right-fill"></i></span>
+                                    <span className="input-group-text"><i className="bi bi-caret-right-fill"></i></span>
                                     <textarea className="form-control" placeholder="Write a step at a time" aria-label={i}
                                         value={e} onChange={this.updateFormArraySteps}></textarea>
                                 </div>
                             )
                         })}
-                        {this.arrayValidate(this.state.stepsEdit,"*Please enter the cooking steps")}
+                        {this.arrayValidate(this.state.stepsEdit, "*Please enter the cooking steps")}
                     </div>
 
                     <button type="button" className="btn btn-secondary m-2"
