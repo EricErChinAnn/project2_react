@@ -56,7 +56,9 @@
 
 html,body{
     /* background-color:#a5875e; */
-    background-image: linear-gradient(#a5875e,#886443);
+    background-image: url("../../../public/randomtools.png"), linear-gradient(#a5875e,#886443);
+    background-size: cover;
+    background-repeat: no-repeat;
     background-attachment: fixed;
 }
 

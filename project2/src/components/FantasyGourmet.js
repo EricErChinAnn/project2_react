@@ -453,7 +453,6 @@ export default class Main extends React.Component {
           </div>
         </nav>
 
-
         <button type="button" id='bttBtn' onClick={this.backToTop}
           className="btn btn-secondary p-1 px-2 rounded-circle"><i className="bi bi-chevron-up p-0 m-0"></i></button>
 

@@ -353,7 +353,69 @@ export default function SingleRecipe(props) {
     return (
         <React.Fragment>
             <div className="p-4 m-2"></div>
-            <div className='m-3 rounded-2 backgroundHolder pt-1'>
+
+
+            {/* Web */}
+            <div id="webviewSingle" style={{ display: "none" }} className='m-5 rounded-2 backgroundHolder pt-1'>
+                <div className='d-flex justify-content-between px-3 py-2'>
+                    <i className="bi bi-caret-left fontCinN mouseOverCursor hoverDropOpacity"
+                        onClick={() => { props.backToRecipe() }}
+                        style={{ fontSize: "20px" }}
+                    >Back</i>
+                    {enableEditDelete()}
+                </div>
+                <div className='d-flex flex-row me-3'>
+                    <div className='imgContainer'>
+                        <img className="mt-0 foodImg holder m-3" src={singleRecipe.picture} alt="Food Display"></img>
+                    </div>
+                    <div className='nameCatContainer'>
+                        <h3 className='fontCinB m-0' style={{ fontSize: "24px" }}>{singleRecipe.name}</h3>
+                        <div className='drawALine'></div>
+                        <p className='m-0 fontCinN pb-2' style={{ fontSize: "small" }}>{singleRecipe.category}</p>
+
+                        <div className='dedsContainer fontLust d-flex flex-wrap justify-content-center rounded-2'>
+                            <div className='my-1 mx-2'><p className='m-0 d-flex flex-row'><span className='bold me-2'>Rating:  </span>{stars}</p></div>
+                            <div className='my-1 mx-2'><p className='m-0'><span className='bold'>Prep Time: </span>{singleRecipe.duration.prep}</p></div>
+                            <div className='my-1 mx-2'><p className='m-0'><span className='bold'>Cook Time: </span>{singleRecipe.duration.cooking}</p></div>
+                            <div className='my-1 mx-2'><p className='m-0'><span className='bold'>Estimated Cost: </span>${singleRecipe.estCost.toFixed(2)}</p></div>
+                            {displayFoodTags()}
+                            <div className='mx-2'><p className='m-0'><span className='bold'>Origin: </span>{getShowGameIcon(singleRecipe.showGameId)} {singleRecipe.showGameId[0].name}</p></div>
+                        </div>
+                        <div className='eqContainer d-flex justify-content-around mt-3'>
+                            <div>
+                                <p className='m-0'><span className='fontCinB me-2'>Equipments:</span>{singleRecipe.cookingTools.map((e) => {
+                                    return (<p className='ms-2 m-0'>{e}</p>)
+                                })}</p>
+                            </div>
+                            <div>
+                                <div>
+                                    <p className='m-0'><span className='fontCinB me-2'>Ingredients: </span>{singleRecipe.ingredients.req.map((e) => {
+                                        return (<p className='ms-2 m-0'>{e}</p>)
+                                    })}</p>
+                                </div>
+                                {ingredientsOptional()}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='mx-3'>
+                    <div className='eqAndStepsContainer pt-2 fontLust'>
+                        <div className='drawALine my-2'></div>
+                        <div className='stepsContainer'>
+                            {prepSteps()}
+                            <div>
+                                <ol className='m-0 p-2'><span className='fontCinB me-2'>Cooking Steps: </span>{singleRecipe.steps.map((e) => {
+                                    return (<li className='m-2'>{e}</li>)
+                                })}</ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* Mobile */}
+            <div id="mobileviewSingle" className='m-3 rounded-2 backgroundHolder pt-1'>
                 <div className='d-flex justify-content-between px-3 py-2'>
                     <i className="bi bi-caret-left fontCinN mouseOverCursor hoverDropOpacity"
                         onClick={() => { props.backToRecipe() }}
@@ -406,11 +468,15 @@ export default function SingleRecipe(props) {
                     </div>
                 </div>
             </div>
+
+
             <div className='m-3 rounded-2 pt-1 reviewContainer'>
                 <h1 className='text-center fontCinB mb-2' style={{ fontSize: "30px" }}>Reviews</h1>
                 <div className='drawALine mb-3'></div>
-                {showReviews()}
-                {postReviews()}
+                <div id='reviewMarginSpace'>
+                    {showReviews()}
+                    {postReviews()}
+                </div>
             </div>
         </React.Fragment>
     )
