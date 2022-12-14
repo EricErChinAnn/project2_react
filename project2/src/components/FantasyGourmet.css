@@ -28,7 +28,7 @@ html {
 
 @media only screen and (max-width: 450px){
  #homeTitleNavbar {
-  font-size: small;
+  font-size: 20px !important;
  }
 
 }
