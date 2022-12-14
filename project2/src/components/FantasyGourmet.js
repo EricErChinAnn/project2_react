@@ -416,7 +416,7 @@ export default class Main extends React.Component {
 
         <nav className="navbar navbar-dark bg-dark fixed-top">
           <div className="container-fluid">
-            <a className="navbar-brand fontCinB" href="/#" style={{ fontSize: "23px" }} onClick={() => { this.switchPage("home") }}>Fantasy Gourmet</a>
+            <a className="navbar-brand fontCinB" id="homeTitleNavbar" href="/#" style={{ fontSize: "23px" }} onClick={() => { this.switchPage("home") }}>Fantasy Gourmet</a>
             <div className='justify-content-end d-flex flex-row align-items-center'>
               <div className='me-2 mt-2'>
                 <a className="navbar-brand fontCinB accountBtn" id='loginModalToggleNow' href="/#" style={{ fontSize: "23px" }}

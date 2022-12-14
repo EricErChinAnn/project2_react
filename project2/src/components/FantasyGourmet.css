@@ -25,3 +25,10 @@ html {
   opacity: 0.3;
   text-decoration: none;
 }
+
+@media only screen and (max-width: 450px){
+ #homeTitleNavbar {
+  font-size: small;
+ }
+
+}
